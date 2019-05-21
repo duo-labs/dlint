@@ -34,7 +34,7 @@ setup(
     ),
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='',
+    url='https://github.com/duo-labs/dlint',
     packages=find_packages(),
     license='BSD-3-Clause',
     classifiers=[
