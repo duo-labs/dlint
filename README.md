@@ -55,6 +55,13 @@ test.py:5:1: DUO105 use of "exec" not allowed
 
 The `--select=DUO` flag tells `flake8` to only run Dlint lint rules.
 
+From here, we can run Dlint against a directory of Python code and make use
+of all the functionality provided to us by `flake8`:
+
+```
+$ python -m flake8 --select=DUO /path/to/python/directory
+```
+
 ## Arc Lint
 
 Dlint is easily integrated with [Arcanist's](https://secure.phabricator.com/book/phabricator/article/arcanist/)
