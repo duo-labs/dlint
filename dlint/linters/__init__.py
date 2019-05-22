@@ -15,6 +15,7 @@ from .bad_duo_client_use import BadDuoClientUseLinter
 from .bad_gl_use import BadGlUseLinter
 from .bad_eval_use import BadEvalUseLinter
 from .bad_exec_use import BadExecUseLinter
+from .bad_hashlib_use import BadHashlibUseLinter
 from .bad_input_use import BadInputUseLinter
 from .bad_marshal_use import BadMarshalUseLinter
 from .bad_onelogin_kwarg_use import BadOneLoginKwargUseLinter
@@ -47,6 +48,7 @@ ALL = (
     BadGlUseLinter,
     BadEvalUseLinter,
     BadExecUseLinter,
+    BadHashlibUseLinter,
     BadInputUseLinter,
     BadMarshalUseLinter,
     BadOneLoginKwargUseLinter,
