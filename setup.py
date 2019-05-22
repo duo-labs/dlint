@@ -30,7 +30,7 @@ setup(
     version=dlint.__version__,
     description=(
         "Dlint is a tool for encouraging best coding practices "
-        "and helping ensure we're writing secure code."
+        "and helping ensure we're writing secure Python code."
     ),
     long_description=long_description,
     long_description_content_type='text/markdown',

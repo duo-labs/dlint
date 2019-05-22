@@ -1,7 +1,7 @@
 # Dlint
 
 Dlint is a tool for encouraging best coding practices and helping ensure we're
-writing secure code.
+writing secure Python code.
 
 > The most important thing I have done as a programmer in recent years is to
 > aggressively pursue static code analysis. Even more valuable than the
@@ -104,12 +104,12 @@ Include Dlint in your `.circleci/config.yml` configuration file:
 version: 2
 jobs:
     build:
-      docker:
-          - image: circleci/python
-      steps:
-          - checkout
-          - run: python -m pip install dlint
-          - run: python -m flake8 --select=DUO /path/to/code
+        docker:
+            - image: circleci/python
+        steps:
+            - checkout
+            - run: python -m pip install dlint
+            - run: python -m flake8 --select=DUO /path/to/code
 ```
 
 ## Gitlab
