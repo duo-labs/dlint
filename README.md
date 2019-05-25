@@ -15,7 +15,11 @@ writing secure Python code.
 
 # Installing
 
-**TODO: Update with PyPI instructions**
+```
+$ python -m pip install dlint
+```
+
+*Specify `python2` or `python3` to install for a specific Python version.*
 
 And double check that it was installed correctly:
 
