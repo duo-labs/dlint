@@ -1,5 +1,8 @@
 # Dlint
 
+[![Python Versions](https://img.shields.io/pypi/pyversions/dlint.svg)](https://img.shields.io/pypi/pyversions/dlint.svg)
+[![PyPI Version](https://img.shields.io/pypi/v/dlint.svg)](https://img.shields.io/pypi/v/dlint.svg)
+
 Dlint is a tool for encouraging best coding practices and helping ensure we're
 writing secure Python code.
 
