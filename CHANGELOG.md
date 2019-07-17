@@ -6,6 +6,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.5.0] - YYYY-MM-DD
+## [0.5.0] - 2019-07-17
 ### Added
 - Initial public release of Dlint
