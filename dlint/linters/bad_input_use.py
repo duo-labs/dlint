@@ -15,7 +15,7 @@ from . import base
 
 class BadInputUseLinter(base.BaseLinter):
     """This linter looks for use of the Python "input" function. In Python 2
-    this function is equilavent to eval(raw_input()), and thus should not be
+    this function is tantamount to eval(raw_input()), and thus should not be
     used. In Python 3 raw_input() functionality has been moved to input().
     """
     off_by_default = False
