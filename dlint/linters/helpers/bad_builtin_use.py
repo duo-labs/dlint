@@ -8,7 +8,6 @@ from __future__ import (
 )
 
 import abc
-import ast
 
 from .. import base
 from ... import util
@@ -25,9 +24,8 @@ class BadBuiltinUseLinter(base.BaseLinter, util.ABC):
         builtin function name they'd like to blacklist.
         """
 
-    def visit_Call(self, node):
-        if (isinstance(node.func, ast.Name)
-                and node.func.id == self.illegal_builtin):
+    def visit_Name(self, node):
+        if node.id == self.illegal_builtin:
             self.results.append(
                 base.Flake8Result(
                     lineno=node.lineno,

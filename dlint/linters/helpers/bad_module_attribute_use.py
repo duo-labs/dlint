@@ -55,24 +55,21 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
             )
             for node in self.illegal_calls
             if any(
-                node.func.id in attributes
+                node.id in attributes
                 for attributes in used_illegal_attributes
             )
         ])
 
         return self.results
 
-    def visit_Call(self, node):
-        self.generic_visit(node)
+    def visit_Name(self, node):
+        illegal_call = any(
+            node.id in illegal_attributes
+            for illegal_attributes in self.illegal_module_attributes.values()
+        )
 
-        if isinstance(node.func, ast.Name):
-            illegal_call = any(
-                node.func.id in illegal_attributes
-                for illegal_attributes in self.illegal_module_attributes.values()
-            )
-
-            if illegal_call:
-                self.illegal_calls.append(node)
+        if illegal_call:
+            self.illegal_calls.append(node)
 
     def visit_Attribute(self, node):
         if isinstance(node.value, (ast.Attribute, ast.Name)):
