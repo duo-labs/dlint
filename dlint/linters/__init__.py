@@ -35,7 +35,6 @@ from .bad_xml_use import BadXMLUseLinter
 from .bad_xmlrpc_use import BadXmlrpcUseLinter
 from .bad_yaml_use import BadYAMLUseLinter
 from .bad_zipfile_use import BadZipfileUseLinter
-from .format_string import FormatStringLinter
 from .inlinecallbacks_yield_statement import InlineCallbacksYieldStatementLinter
 from .returnvalue_in_inlinecallbacks import ReturnValueInInlineCallbacksLinter
 from .yield_return_statement import YieldReturnStatementLinter
@@ -68,7 +67,6 @@ ALL = (
     BadXmlrpcUseLinter,
     BadYAMLUseLinter,
     BadZipfileUseLinter,
-    FormatStringLinter,
     InlineCallbacksYieldStatementLinter,
     ReturnValueInInlineCallbacksLinter,
     YieldReturnStatementLinter,
