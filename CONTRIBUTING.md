@@ -20,6 +20,8 @@ When adding new linters:
 * Add a new file and class inheriting from `base.BaseLinter` for each new linter.
 * Add a "pass-through" import of the new class to `dlint.linters.__init__.py`.
 * Add the new class to `ALL` in `dlint.linters.__init__.py`.
+* Add documentation link in `docs/README.md`.
+* Add documentation file in `docs/linters/`.
 * Ensure new rules are properly tested (high or complete test coverage).
 * Ensure new code adheres to the style guide/linting process.
 * Add new rule information to `CHANGELOG.md` under `Unreleased` section, `Added` sub-section.
