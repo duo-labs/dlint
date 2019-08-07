@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- D131: lint for disabling urllib3 warnings
+
 ### Removed
 - `FormatStringLinter`, previously `D104`, as it was a disabled expirement
 

@@ -30,6 +30,7 @@ from .bad_ssl_module_attribute_use import BadSSLModuleAttributeUseLinter
 from .bad_sys_use import BadSysUseLinter
 from .bad_tarfile_use import BadTarfileUseLinter
 from .bad_tempfile_use import BadTempfileUseLinter
+from .bad_urllib3_module_attribute_use import BadUrllib3ModuleAttributeUseLinter
 from .bad_pickle_use import BadPickleUseLinter
 from .bad_xml_use import BadXMLUseLinter
 from .bad_xmlrpc_use import BadXmlrpcUseLinter
@@ -62,6 +63,7 @@ ALL = (
     BadSubprocessUseLinter,
     BadTempfileUseLinter,
     BadTarfileUseLinter,
+    BadUrllib3ModuleAttributeUseLinter,
     BadPickleUseLinter,
     BadXMLUseLinter,
     BadXmlrpcUseLinter,
