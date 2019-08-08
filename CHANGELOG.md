@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - D131: lint for disabling urllib3 warnings
+- D132: lint for disabling urllib3 HTTPS certification verification
 
 ### Removed
 - `FormatStringLinter`, previously `D104`, as it was a disabled expirement
