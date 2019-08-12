@@ -11,4 +11,4 @@ from . import tree  # noqa F401
 from . import util  # noqa F401
 
 __name__ = 'dlint'
-__version__ = '0.5.0'
+__version__ = '0.6.0'
