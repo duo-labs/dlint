@@ -25,7 +25,7 @@ def decorator_name(decorator):
             # E.g. @decorator(argument)
             return decorator.func.id
     else:
-        raise TypeError(type(decorator))
+        raise TypeError('expected type ast.Attribute, ast.Name, or ast.Call, received {}'.format(type(decorator)))
 
 
 def call_name(call):
@@ -36,7 +36,7 @@ def call_name(call):
         # E.g. func_call(argument)
         return call.func.id
     else:
-        raise TypeError(type(call.func))
+        raise TypeError('expected type ast.Attribute or ast.Name, received {}'.format(type(call.func)))
 
 
 def function_has_inlinecallbacks_decorator(function):

@@ -22,7 +22,7 @@ class Namespace(object):
         # hole of looking at things like function and class-scope imports and
         # conditional imports in 'if' or 'try' statements
         if not isinstance(module_node, ast.Module):
-            raise TypeError("only module-level imports are supported")
+            raise TypeError('expected type ast.Module, received {}'.format(type(module_node)))
 
         imports = []
         from_imports = []

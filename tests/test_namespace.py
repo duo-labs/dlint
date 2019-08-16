@@ -9,6 +9,8 @@ from __future__ import (
 
 import unittest
 
+import pytest
+
 import dlint
 
 
@@ -100,6 +102,12 @@ class TestNamespace(dlint.test.base.BaseTest):
         expected = False
 
         assert result == expected
+
+    def test_from_module_node_unknown_type(self):
+        unknown_type = None
+
+        with pytest.raises(TypeError):
+            dlint.namespace.Namespace.from_module_node(unknown_type)
 
 
 if __name__ == "__main__":
