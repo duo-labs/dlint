@@ -13,3 +13,9 @@ from . import util  # noqa F401
 
 __name__ = 'dlint'
 __version__ = '0.6.0'
+__description__ = (
+    "Dlint is a tool for encouraging best coding practices "
+    "and helping ensure we're writing secure Python code."
+)
+__url__ = 'https://github.com/duo-labs/dlint'
+__license__ = 'BSD-3-Clause'
