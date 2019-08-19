@@ -64,5 +64,15 @@ things like no more re-inventing the wheel for
 [running multiple jobs in parallel](https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-jobs),
 and much more.
 
+Bandit also provides some advantages over Dlint:
+
+* Bandit can identify SQL injections in your code: [B608](https://bandit.readthedocs.io/en/latest/plugins/b608_hardcoded_sql_expressions.html).
+* Bandit can identify security issues resulting from hardcoded information:
+[B104](https://bandit.readthedocs.io/en/latest/plugins/b104_hardcoded_bind_all_interfaces.html),
+[B105](https://bandit.readthedocs.io/en/latest/plugins/b105_hardcoded_password_string.html),
+[B106](https://bandit.readthedocs.io/en/latest/plugins/b106_hardcoded_password_funcarg.html),
+[B107](https://bandit.readthedocs.io/en/latest/plugins/b107_hardcoded_password_funcdef.html), and
+[B108](https://bandit.readthedocs.io/en/latest/plugins/b108_hardcoded_tmp_directory.html).
+
 Running multiple security tools over your codebase will provide a more
 comprehensive analysis and ensure you're coding with confidence.
