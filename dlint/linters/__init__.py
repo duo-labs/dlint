@@ -33,6 +33,7 @@ from .bad_tempfile_use import BadTempfileUseLinter
 from .bad_urllib3_module_attribute_use import BadUrllib3ModuleAttributeUseLinter
 from .bad_urllib3_kwarg_use import BadUrllib3KwargUseLinter
 from .bad_pickle_use import BadPickleUseLinter
+from .bad_pycrypto_use import BadPycryptoUseLinter
 from .bad_xml_use import BadXMLUseLinter
 from .bad_xmlrpc_use import BadXmlrpcUseLinter
 from .bad_yaml_use import BadYAMLUseLinter
@@ -67,6 +68,7 @@ ALL = (
     BadUrllib3ModuleAttributeUseLinter,
     BadUrllib3KwargUseLinter,
     BadPickleUseLinter,
+    BadPycryptoUseLinter,
     BadXMLUseLinter,
     BadXmlrpcUseLinter,
     BadYAMLUseLinter,
