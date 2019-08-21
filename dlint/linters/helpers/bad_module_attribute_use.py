@@ -108,7 +108,7 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
             alias.name == '*'
             for alias in node.names
         )
-        if wildcard_import and node.module in self.illegal_module_attributes.keys():
+        if wildcard_import and node.module in self.illegal_module_attributes:
             self.illegal_wildcard_imports.append(node.module)
 
         self.results.extend([
