@@ -84,6 +84,31 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_bad_foo_bar_as_usage(self):
+        python_string = self.get_ast_node(
+            """
+            import foo.bar as baz
+
+            var = 'echo "TEST"'
+
+            baz.qux(var)
+            """
+        )
+
+        linter = get_bad_module_attribute_use_implementation({'foo.bar': ['qux']})
+        linter.visit(python_string)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=6,
+                col_offset=0,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
     def test_bad_foo_bar_import_from_usage(self):
         python_string = self.get_ast_node(
             """
@@ -96,6 +121,31 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo': ['bar']})
+        linter.visit(python_string)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=2,
+                col_offset=0,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_bad_foo_bar_import_from_as_usage(self):
+        python_string = self.get_ast_node(
+            """
+            from foo.bar import baz as qux
+
+            var = 'echo "TEST"'
+
+            qux(var)
+            """
+        )
+
+        linter = get_bad_module_attribute_use_implementation({'foo.bar': ['baz']})
         linter.visit(python_string)
 
         result = linter.get_results()

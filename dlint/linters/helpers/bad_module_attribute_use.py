@@ -23,6 +23,7 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
     def __init__(self, *args, **kwargs):
         self.illegal_wildcard_imports = []
         self.illegal_calls = []
+        self.illegal_import_aliases = []
 
         super(BadModuleAttributeUseLinter, self).__init__(*args, **kwargs)
 
@@ -75,8 +76,14 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
         if isinstance(node.value, (ast.Attribute, ast.Name)):
             module_path = '.'.join(tree.module_path(node.value))
 
+            def illegal_module(mod):
+                return (
+                    module_path == mod
+                    or module_path in self.illegal_import_aliases
+                )
+
             illegal_attribute_use = any(
-                module_path == module and node.attr in attributes
+                illegal_module(module) and node.attr in attributes
                 for module, attributes in self.illegal_module_attributes.items()
             )
 
@@ -88,6 +95,13 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
                         message=self._error_tmpl
                     )
                 )
+
+    def visit_Import(self, node):
+        self.illegal_import_aliases.extend([
+            alias.asname
+            for alias in node.names
+            if alias.asname is not None and alias.name in self.illegal_module_attributes
+        ])
 
     def visit_ImportFrom(self, node):
         wildcard_import = any(

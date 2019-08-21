@@ -354,6 +354,48 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_bad_import_as_usage(self):
+        python_string = self.get_ast_node(
+            """
+            import foo as bar
+            """
+        )
+
+        linter = get_bad_module_use_implementation(["foo"])
+        linter.visit(python_string)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=2,
+                col_offset=0,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_bad_import_from_as_usage(self):
+        python_string = self.get_ast_node(
+            """
+            from foo import bar as baz
+            """
+        )
+
+        linter = get_bad_module_use_implementation(["foo"])
+        linter.visit(python_string)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=2,
+                col_offset=0,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
     def test_no_foo_usage(self):
         python_string = self.get_ast_node(
             """
