@@ -13,12 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.6.0] - 2019-08-12
 ### Added
-- Support for Python 3.5 and 3.7
+- Support for Python 3.5 and 3.7 ([#9](https://github.com/duo-labs/dlint/issues/9))
 - `DUO131`: lint for disabling urllib3 warnings
 - `DUO132`: lint for disabling urllib3 HTTPS certification verification
 
 ### Removed
-- `FormatStringLinter`, previously `DUO104`, as it was a disabled expirement
+- `FormatStringLinter`, previously `DUO104`, as it was a disabled expirement ([#15](https://github.com/duo-labs/dlint/issues/15))
 
 ## [0.5.0] - 2019-07-17
 ### Added
