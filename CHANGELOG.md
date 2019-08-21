@@ -6,10 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-- `DUO133`: lint for pycrypto usage (https://github.com/duo-labs/dlint/issues/7)
+- `DUO133`: lint for pycrypto usage ([#7](https://github.com/duo-labs/dlint/issues/7))
 
 ### Fixed
-- False positive when bad builtin is overwritten by import (https://github.com/duo-labs/dlint/issues/16)
+- False positive when bad builtin is overwritten by import ([#16](https://github.com/duo-labs/dlint/issues/16))
 
 ## [0.6.0] - 2019-08-12
 ### Added
