@@ -63,6 +63,7 @@ things like no more re-inventing the wheel for
 [selecting and ignoring violations](https://flake8.pycqa.org/en/latest/user/violations.html),
 [including and excluding specific files](https://flake8.pycqa.org/en/latest/user/invocation.html),
 [running multiple jobs in parallel](https://flake8.pycqa.org/en/latest/user/options.html#cmdoption-flake8-jobs),
+[showing results inline in your editor](https://github.com/duo-labs/dlint#inline-editor),
 and much more.
 
 Bandit also provides some advantages over Dlint:
