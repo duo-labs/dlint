@@ -396,7 +396,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    def test_no_foo_usage(self):
+    def test_no_module_usage(self):
         python_node = self.get_ast_node(
             """
             import os

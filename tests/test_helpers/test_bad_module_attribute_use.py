@@ -59,7 +59,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    def test_bad_foo_bar_usage(self):
+    def test_module_attribute_usage(self):
         python_node = self.get_ast_node(
             """
             import foo
@@ -84,7 +84,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    def test_bad_foo_bar_as_usage(self):
+    def test_module_attribute_as_usage(self):
         python_node = self.get_ast_node(
             """
             import foo.bar as baz
@@ -109,7 +109,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    def test_bad_foo_bar_import_from_usage(self):
+    def test_module_attribute_import_from_usage(self):
         python_node = self.get_ast_node(
             """
             from foo import bar
@@ -134,7 +134,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    def test_bad_foo_bar_import_from_as_usage(self):
+    def test_module_attribute_import_from_as_usage(self):
         python_node = self.get_ast_node(
             """
             from foo.bar import baz as qux
@@ -159,7 +159,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    def test_bad_foo_bar_from_wildcard_usage(self):
+    def test_module_attribute_from_wildcard_usage(self):
         python_node = self.get_ast_node(
             """
             from foo import *
@@ -305,7 +305,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    def test_no_foo_bar_usage(self):
+    def test_no_module_attribute_usage(self):
         python_node = self.get_ast_node(
             """
             import os
