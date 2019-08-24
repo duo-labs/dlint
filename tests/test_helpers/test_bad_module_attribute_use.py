@@ -347,6 +347,27 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_module_attribute_missing_import_usage(self):
+        python_node = self.get_ast_node(
+            """
+            import baz
+            from qux import quine
+
+            var = 'echo "TEST"'
+
+            foo = None
+            foo.bar(var)
+            """
+        )
+
+        linter = get_bad_module_attribute_use_implementation({'foo': ['bar']})
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = []
+
+        assert result == expected
+
 
 if __name__ == "__main__":
     unittest.main()

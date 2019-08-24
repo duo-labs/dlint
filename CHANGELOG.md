@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - False positive when bad builtin is overwritten by import ([#16](https://github.com/duo-labs/dlint/issues/16))
 - False negative when bad module attribute uses import alias ([#2](https://github.com/duo-labs/dlint/issues/2))
+- False positive when bad module attribute not imported ([#14](https://github.com/duo-labs/dlint/issues/14))
 
 ## [0.6.0] - 2019-08-12
 ### Added

@@ -78,7 +78,9 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
 
             def illegal_module(mod):
                 return (
-                    module_path == mod
+                    # Assuming you can't have a period ('.') in names brought
+                    # into a module's namespace
+                    (module_path == mod and (self.namespace.name_imported(mod) or '.' in mod))
                     or module_path in self.illegal_import_aliases
                 )
 
