@@ -34,12 +34,12 @@ import extension  # noqa: E402
 class TestFlake8Extension(base.BaseTest):
 
     def test_flake8_extension_empty(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
 
-        linter = extension.Flake8Extension(python_string, "unused")
+        linter = extension.Flake8Extension(python_node, "unused")
 
         result = list(linter.run())
         expected = []
@@ -47,13 +47,13 @@ class TestFlake8Extension(base.BaseTest):
         assert result == expected
 
     def test_flake8_extension_basic(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             exec('print "TEST"')
             """
         )
 
-        linter = extension.Flake8Extension(python_string, "unused")
+        linter = extension.Flake8Extension(python_node, "unused")
 
         result = list(linter.run())
         expected = [

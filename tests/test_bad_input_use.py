@@ -18,13 +18,13 @@ IS_PYTHON_2 = sys.version_info < (3, 0)
 class TestBadInputUse(dlint.test.base.BaseTest):
 
     def test_empty(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
 
         linter = dlint.linters.BadInputUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -32,7 +32,7 @@ class TestBadInputUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_input_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             var = 1
 
@@ -41,7 +41,7 @@ class TestBadInputUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadInputUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [] if not IS_PYTHON_2 else [
@@ -55,7 +55,7 @@ class TestBadInputUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_six_moves_input_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from six.moves import input
 
@@ -66,7 +66,7 @@ class TestBadInputUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadInputUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -74,7 +74,7 @@ class TestBadInputUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_no_input_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import os
 
@@ -85,7 +85,7 @@ class TestBadInputUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadInputUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []

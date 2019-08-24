@@ -15,7 +15,7 @@ import dlint
 class TestBadOneLoginKwargUse(dlint.test.base.BaseTest):
 
     def test_bad_onelogin_kwarg_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from onelogin.saml2.utils import OneLogin_Saml2_Utils
             from onelogin.saml2.constants import OneLogin_Saml2_Constants
@@ -47,7 +47,7 @@ class TestBadOneLoginKwargUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadOneLoginKwargUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

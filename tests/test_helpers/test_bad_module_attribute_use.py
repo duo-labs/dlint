@@ -27,13 +27,13 @@ def get_bad_module_attribute_use_implementation(illegal_module_attributes):
 class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
     def test_empty_code(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo': ['bar']})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -41,7 +41,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_empty_illegal_module_attributes(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import os
 
@@ -52,7 +52,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -60,7 +60,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_foo_bar_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -71,7 +71,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo': ['bar']})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -85,7 +85,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_foo_bar_as_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo.bar as baz
 
@@ -96,7 +96,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo.bar': ['qux']})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -110,7 +110,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_foo_bar_import_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar
 
@@ -121,7 +121,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo': ['bar']})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -135,7 +135,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_foo_bar_import_from_as_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo.bar import baz as qux
 
@@ -146,7 +146,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo.bar': ['baz']})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -160,7 +160,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_foo_bar_from_wildcard_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import *
 
@@ -171,7 +171,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo': ['bar']})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -185,7 +185,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_multiple_bad_attributes_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -199,7 +199,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_module_attribute_use_implementation(
             {'foo': ['bar', 'baz']}
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -218,7 +218,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_multiple_bad_modules_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
             import baz
@@ -233,7 +233,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_module_attribute_use_implementation(
             {'foo': ['bar'], 'baz': ['qux']}
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -252,7 +252,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_multiple_module_depth_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo.bar.baz
 
@@ -265,7 +265,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_module_attribute_use_implementation(
             {'foo.bar.baz': ['qux']}
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -279,7 +279,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_multiple_module_depth_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar
 
@@ -292,7 +292,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_module_attribute_use_implementation(
             {'bar.baz': ['qux']}
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -306,7 +306,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_no_foo_bar_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import os
 
@@ -317,7 +317,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo': ['bar']})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -325,7 +325,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_module_class_use(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -334,7 +334,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation({'foo': ['Bar']})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

@@ -15,7 +15,7 @@ import dlint
 class TestBadUrllib3KwargUse(dlint.test.base.BaseTest):
 
     def test_bad_urllib3_kwarg_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import urllib3
             import ssl
@@ -30,7 +30,7 @@ class TestBadUrllib3KwargUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadUrllib3KwargUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

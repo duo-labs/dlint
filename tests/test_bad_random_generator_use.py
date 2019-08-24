@@ -15,13 +15,13 @@ import dlint
 class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
 
     def test_empty(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
 
         linter = dlint.linters.BadRandomGeneratorUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -29,7 +29,7 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_good_import(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import random
 
@@ -41,7 +41,7 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadRandomGeneratorUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -49,7 +49,7 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_good_from_import(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from random import SystemRandom
 
@@ -61,7 +61,7 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadRandomGeneratorUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -69,7 +69,7 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_attribute_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import random
 
@@ -78,7 +78,7 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadRandomGeneratorUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -92,7 +92,7 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_attribute_usage_with_good_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import random
 
@@ -104,7 +104,7 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadRandomGeneratorUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -118,14 +118,14 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_from_import(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from random import random
             """
         )
 
         linter = dlint.linters.BadRandomGeneratorUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -139,14 +139,14 @@ class TestBadRandomGeneratorUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_from_import_with_good_import(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from random import SystemRandom, random
             """
         )
 
         linter = dlint.linters.BadRandomGeneratorUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

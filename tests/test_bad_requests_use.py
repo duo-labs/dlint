@@ -15,7 +15,7 @@ import dlint
 class TestBadRequestsUse(dlint.test.base.BaseTest):
 
     def test_bad_requests_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import requests
 
@@ -31,7 +31,7 @@ class TestBadRequestsUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadRequestsUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

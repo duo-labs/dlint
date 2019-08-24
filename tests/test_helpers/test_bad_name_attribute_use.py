@@ -27,7 +27,7 @@ def get_bad_name_attribute_use_implementation(illegal_name_attributes):
 class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
     def test_empty_code(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
@@ -39,7 +39,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -47,7 +47,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_empty_illegal_name_attributes(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import os
 
@@ -58,7 +58,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_name_attribute_use_implementation({})
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -66,7 +66,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_name_attributes_basic(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import bar
 
@@ -83,7 +83,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -97,7 +97,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_name_attributes_nested(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import bar
 
@@ -116,7 +116,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -130,7 +130,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_name_attributes_nested_overwrite(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import bar
 
@@ -151,7 +151,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -159,7 +159,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_name_attributes_multiple_findings(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import bar
 
@@ -180,7 +180,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -199,7 +199,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_name_attributes_multiple_attributes(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import bar
 
@@ -222,7 +222,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -241,7 +241,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_name_attributes_overwrite(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import bar
 
@@ -260,7 +260,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -268,7 +268,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_name_attributes_no_module(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from bar import Baz
 
@@ -285,7 +285,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -299,7 +299,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_name_attributes_multiple_attribute_calls(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import bar
 
@@ -321,7 +321,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 ],
             }
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

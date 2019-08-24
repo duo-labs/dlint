@@ -15,7 +15,7 @@ import dlint
 class TestBadSysUse(dlint.test.base.BaseTest):
 
     def test_bad_sys_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import sys
 
@@ -26,7 +26,7 @@ class TestBadSysUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadSysUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

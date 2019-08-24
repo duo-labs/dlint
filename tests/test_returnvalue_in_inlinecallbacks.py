@@ -8,13 +8,13 @@ import dlint
 class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
 
     def test_empty(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -22,7 +22,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_not_inlinecallbacks_decorator(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -33,7 +33,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -47,7 +47,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_name_decorator_with_argument(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -60,7 +60,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -74,7 +74,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_attribute_decorator_with_argument(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -87,7 +87,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -101,7 +101,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_returnvalue_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -113,7 +113,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -121,7 +121,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_returnvalue_statement_with_weird_calls(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -133,7 +133,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -147,7 +147,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_returnvalue_name_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet.defer import inlineCallbacks, returnValue
 
@@ -159,7 +159,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -167,7 +167,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_nested_yield_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -180,7 +180,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -188,7 +188,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_missing_inlinecallbacks_decorator(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -199,7 +199,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -213,7 +213,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_function_with_nested_missing_inlinecallbacks_decorator(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -230,7 +230,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -244,7 +244,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_regular_function_with_nested_missing_inlinecallbacks_decorator(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -260,7 +260,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -274,7 +274,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_nested_function_missing_inlinecallbacks_decorator(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -290,7 +290,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -304,7 +304,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_nested_class_missing_inlinecallbacks_decorator(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -322,7 +322,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -336,7 +336,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_nested_regular_class_missing_inlinecallbacks_decorator(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -353,7 +353,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.ReturnValueInInlineCallbacksLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

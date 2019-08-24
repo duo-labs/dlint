@@ -15,7 +15,7 @@ import dlint
 class TestBadZipfileUse(dlint.test.base.BaseTest):
 
     def test_bad_zipfile_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import zipfile
 
@@ -27,7 +27,7 @@ class TestBadZipfileUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadZipfileUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -46,7 +46,7 @@ class TestBadZipfileUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_zipfile_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from zipfile import ZipFile
 
@@ -58,7 +58,7 @@ class TestBadZipfileUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadZipfileUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

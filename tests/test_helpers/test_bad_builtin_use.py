@@ -27,13 +27,13 @@ def get_builtin_use_implementation(illegal_builtin):
 class TestBadBuiltinUse(dlint.test.base.BaseTest):
 
     def test_empty(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
 
         linter = get_builtin_use_implementation('foo')
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -41,7 +41,7 @@ class TestBadBuiltinUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_builtin_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             var = 1
 
@@ -50,7 +50,7 @@ class TestBadBuiltinUse(dlint.test.base.BaseTest):
         )
 
         linter = get_builtin_use_implementation('foo')
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -64,7 +64,7 @@ class TestBadBuiltinUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_builtin_overwritten(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar
 
@@ -73,7 +73,7 @@ class TestBadBuiltinUse(dlint.test.base.BaseTest):
         )
 
         linter = get_builtin_use_implementation('bar')
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -81,7 +81,7 @@ class TestBadBuiltinUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_no_builtin_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import os
 
@@ -92,7 +92,7 @@ class TestBadBuiltinUse(dlint.test.base.BaseTest):
         )
 
         linter = get_builtin_use_implementation('foo')
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []

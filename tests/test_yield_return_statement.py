@@ -11,13 +11,13 @@ IS_PYTHON_3_3 = sys.version_info >= (3, 3)
 class TestYieldReturnStatement(dlint.test.base.BaseTest):
 
     def test_empty(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -25,7 +25,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_not_inlinecallbacks_decorator(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             @other_decorator
             def func(arg):
@@ -34,7 +34,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -42,7 +42,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_name_decorator_with_argument(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             CONST = 5
 
@@ -53,7 +53,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -61,7 +61,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_attribute_decorator_with_argument(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             CONST = 5
 
@@ -72,7 +72,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -80,7 +80,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_none_return_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -91,7 +91,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [] if IS_PYTHON_3_3 else [
@@ -105,7 +105,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_empty_return_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -116,7 +116,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -124,7 +124,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_non_empty_return_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -135,7 +135,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [] if IS_PYTHON_3_3 else [
@@ -149,7 +149,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_multiple_return_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -166,7 +166,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [] if IS_PYTHON_3_3 else [
@@ -180,7 +180,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_nested_function_return_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -197,7 +197,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -205,7 +205,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_nested_function_non_empty_return_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -222,7 +222,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [] if IS_PYTHON_3_3 else [
@@ -236,7 +236,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_nested_class_return_statement(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet import defer
 
@@ -254,7 +254,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -262,7 +262,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_short_import(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import twisted
 
@@ -273,7 +273,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [] if IS_PYTHON_3_3 else [
@@ -287,7 +287,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_long_import(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from twisted.internet.defer import inlineCallbacks
 
@@ -298,7 +298,7 @@ class TestYieldReturnStatement(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.YieldReturnStatementLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [] if IS_PYTHON_3_3 else [

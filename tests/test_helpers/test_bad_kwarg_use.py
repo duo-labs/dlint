@@ -27,7 +27,7 @@ def get_bad_kwarg_use_implementation(kwargs):
 class TestBadKwargUse(dlint.test.base.BaseTest):
 
     def test_empty(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
@@ -41,7 +41,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -49,14 +49,14 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_empty_kwargs(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
             """
         )
 
         linter = get_bad_kwarg_use_implementation([])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -64,7 +64,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_present_true(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -81,7 +81,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -95,7 +95,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_present_false(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -112,7 +112,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -120,7 +120,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_present_true_missing(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -137,7 +137,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -145,7 +145,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_present_false_missing(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -162,7 +162,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -176,7 +176,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_same_name_different_kwarg(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -193,7 +193,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -201,7 +201,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_different_name_same_kwarg(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -218,7 +218,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -226,7 +226,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_multi(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -249,7 +249,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -268,7 +268,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_nested_calls(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import Bar
 
@@ -285,7 +285,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -299,7 +299,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_subscript_calls(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import Bar
 
@@ -316,7 +316,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -330,7 +330,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_primitive_true(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -347,7 +347,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -361,7 +361,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_primitive_false(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -378,7 +378,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -392,7 +392,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_kwargs_primitive_none(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
 
@@ -409,7 +409,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
                 },
             ]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

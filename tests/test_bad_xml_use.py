@@ -15,7 +15,7 @@ import dlint
 class TestBadXMLUse(dlint.test.base.BaseTest):
 
     def test_xml_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import xml
             import xmlrpclib
@@ -24,7 +24,7 @@ class TestBadXMLUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadXMLUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -48,7 +48,7 @@ class TestBadXMLUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_saxutils_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import xml.sax.saxutils
             from xml.sax import saxutils
@@ -56,7 +56,7 @@ class TestBadXMLUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadXMLUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -64,14 +64,14 @@ class TestBadXMLUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_defused_lxml_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from defusedxml import lxml
             """
         )
 
         linter = dlint.linters.BadXMLUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []

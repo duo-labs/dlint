@@ -15,7 +15,7 @@ import dlint
 class TestBadTarfileUse(dlint.test.base.BaseTest):
 
     def test_bad_tarfile_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import tarfile
 
@@ -30,7 +30,7 @@ class TestBadTarfileUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadTarfileUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -59,7 +59,7 @@ class TestBadTarfileUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_tarfile_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from tarfile import TarFile
 
@@ -74,7 +74,7 @@ class TestBadTarfileUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadTarfileUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

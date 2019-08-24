@@ -15,14 +15,14 @@ import dlint
 class TestBadPycryptoUse(dlint.test.base.BaseTest):
 
     def test_bad_pycrypto_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import Crypto
             """
         )
 
         linter = dlint.linters.BadPycryptoUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -36,14 +36,14 @@ class TestBadPycryptoUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_pycrypto_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from Crypto import AES
             """
         )
 
         linter = dlint.linters.BadPycryptoUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

@@ -15,14 +15,14 @@ import dlint
 class TestBadPopen2Use(dlint.test.base.BaseTest):
 
     def test_bad_popen2_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import popen2
             """
         )
 
         linter = dlint.linters.BadPopen2UseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

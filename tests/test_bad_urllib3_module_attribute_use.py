@@ -15,7 +15,7 @@ import dlint
 class TestBadUrllib3ModuleAttributeUse(dlint.test.base.BaseTest):
 
     def test_bad_urllib3_module_attribute_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import urllib3
             urllib3.disable_warnings()
@@ -23,7 +23,7 @@ class TestBadUrllib3ModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadUrllib3ModuleAttributeUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -37,7 +37,7 @@ class TestBadUrllib3ModuleAttributeUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_urllib3_module_attribute_usage_from_import(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from urllib3 import disable_warnings
             disable_warnings()
@@ -45,7 +45,7 @@ class TestBadUrllib3ModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadUrllib3ModuleAttributeUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

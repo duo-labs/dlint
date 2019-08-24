@@ -18,7 +18,7 @@ IS_PYTHON_THREE = sys.version_info >= (3, 0)
 class TestBadExecUse(dlint.test.base.BaseTest):
 
     def test_bad_exec_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             var = 1
 
@@ -27,7 +27,7 @@ class TestBadExecUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadExecUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -42,7 +42,7 @@ class TestBadExecUse(dlint.test.base.BaseTest):
 
     @unittest.skipIf(IS_PYTHON_THREE, 'exec statements are a SyntaxError in Python 3')
     def test_bad_exec_statement_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             var = 1
 
@@ -51,7 +51,7 @@ class TestBadExecUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadExecUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

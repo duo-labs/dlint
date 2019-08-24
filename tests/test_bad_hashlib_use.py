@@ -15,7 +15,7 @@ import dlint
 class TestBadHashlibUse(dlint.test.base.BaseTest):
 
     def test_bad_hashlib_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import hashlib
 
@@ -27,7 +27,7 @@ class TestBadHashlibUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadHashlibUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

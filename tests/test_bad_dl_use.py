@@ -15,14 +15,14 @@ import dlint
 class TestBadDlUse(dlint.test.base.BaseTest):
 
     def test_bad_dl_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import dl
             """
         )
 
         linter = dlint.linters.BadDlUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

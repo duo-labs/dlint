@@ -15,7 +15,7 @@ import dlint
 class TestBadEvalUse(dlint.test.base.BaseTest):
 
     def test_bad_eval_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             var = 1
 
@@ -24,7 +24,7 @@ class TestBadEvalUse(dlint.test.base.BaseTest):
         )
 
         linter = dlint.linters.BadEvalUseLinter()
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [

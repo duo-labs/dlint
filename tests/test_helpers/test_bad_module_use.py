@@ -34,13 +34,13 @@ def get_bad_module_use_implementation(illegal_modules, whitelisted_modules=None)
 class TestBadModuleUse(dlint.test.base.BaseTest):
 
     def test_empty(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             """
         )
 
         linter = get_bad_module_use_implementation([""])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -48,14 +48,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_empty_illegal_module_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
             """
         )
 
         linter = get_bad_module_use_implementation([])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -63,14 +63,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
             """
         )
 
         linter = get_bad_module_use_implementation(["foo"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -84,7 +84,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_multiple_bad_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo
             import bar
@@ -92,7 +92,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_use_implementation(["foo", "bar"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -111,14 +111,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_parent_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo.bar.baz
             """
         )
 
         linter = get_bad_module_use_implementation(["foo.bar"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -132,14 +132,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_nested_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo.bar
             """
         )
 
         linter = get_bad_module_use_implementation(["foo.bar"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -153,14 +153,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_deeper_mismatch_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo.bar
             """
         )
 
         linter = get_bad_module_use_implementation(["foo.bar.baz"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -168,14 +168,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_child_mismatch_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo.bar
             """
         )
 
         linter = get_bad_module_use_implementation(["foo.baz"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -183,14 +183,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_import_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar
             """
         )
 
         linter = get_bad_module_use_implementation(["foo"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -204,14 +204,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_namespaced_import_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar
             """
         )
 
         linter = get_bad_module_use_implementation(["foo.bar"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -225,14 +225,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_child_mismatch_import_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar
             """
         )
 
         linter = get_bad_module_use_implementation(["foo.baz"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -240,7 +240,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_multiple_bad_import_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar
             from baz import qux
@@ -248,7 +248,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_use_implementation(["foo", "baz"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -267,14 +267,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_nested_import_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo.bar.baz import qux
             """
         )
 
         linter = get_bad_module_use_implementation(["foo.bar"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -288,7 +288,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_whitelisted_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo.bar
             import foo.bar.baz
@@ -299,7 +299,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
             ["foo"],
             whitelisted_modules=["foo.bar.baz"]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -313,7 +313,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_whitelisted_from_import_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar
             from foo.bar import baz
@@ -324,7 +324,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
             ["foo"],
             whitelisted_modules=["foo.bar.baz"]
         )
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -338,7 +338,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_relative_import_from_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from . import foo
             from .. import bar
@@ -347,7 +347,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_use_implementation(["foo"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
@@ -355,14 +355,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_import_as_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import foo as bar
             """
         )
 
         linter = get_bad_module_use_implementation(["foo"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -376,14 +376,14 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_bad_import_from_as_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             from foo import bar as baz
             """
         )
 
         linter = get_bad_module_use_implementation(["foo"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = [
@@ -397,7 +397,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         assert result == expected
 
     def test_no_foo_usage(self):
-        python_string = self.get_ast_node(
+        python_node = self.get_ast_node(
             """
             import os
 
@@ -408,7 +408,7 @@ class TestBadModuleUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_use_implementation(["foo"])
-        linter.visit(python_string)
+        linter.visit(python_node)
 
         result = linter.get_results()
         expected = []
