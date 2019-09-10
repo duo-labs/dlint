@@ -17,7 +17,7 @@ writing secure Python code.
 > from and enjoy using it.
 > - [Lessons from Building Static Analysis Tools at Google](https://cacm.acm.org/magazines/2018/4/226371-lessons-from-building-static-analysis-tools-at-google/fulltext)
 
-**Documentation**: see [docs](https://github.com/duo-labs/dlint/tree/master/docs).
+For documentation and a list of rules see [docs](https://github.com/duo-labs/dlint/tree/master/docs).
 
 # Installing
 
