@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Support for Python 3.8 ([#12](https://github.com/duo-labs/dlint/issues/12))
 
 ## [0.7.0] - 2019-08-24
 ### Added
