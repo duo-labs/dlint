@@ -12,7 +12,7 @@ import unittest
 
 import dlint
 
-IS_PYTHON_THREE = sys.version_info >= (3, 0)
+IS_PYTHON_3 = sys.version_info >= (3, 0)
 
 
 class TestBadExecUse(dlint.test.base.BaseTest):
@@ -40,7 +40,7 @@ class TestBadExecUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @unittest.skipIf(IS_PYTHON_THREE, 'exec statements are a SyntaxError in Python 3')
+    @unittest.skipIf(IS_PYTHON_3, 'exec statements are a SyntaxError in Python 3')
     def test_bad_exec_statement_usage(self):
         python_node = self.get_ast_node(
             """
