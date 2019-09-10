@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 
+import sys
 import unittest
 
 import dlint
+
+IS_PYTHON_3_8 = sys.version_info >= (3, 8)
 
 
 class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
@@ -38,7 +41,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=4,
+                lineno=5 if IS_PYTHON_3_8 else 4,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -65,7 +68,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=6,
+                lineno=7 if IS_PYTHON_3_8 else 6,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -92,7 +95,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=6,
+                lineno=7 if IS_PYTHON_3_8 else 6,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -138,7 +141,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=4,
+                lineno=5 if IS_PYTHON_3_8 else 4,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -204,7 +207,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=4,
+                lineno=5 if IS_PYTHON_3_8 else 4,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -235,7 +238,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=4,
+                lineno=5 if IS_PYTHON_3_8 else 4,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -265,7 +268,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=4,
+                lineno=5 if IS_PYTHON_3_8 else 4,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -295,7 +298,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=8,
+                lineno=9 if IS_PYTHON_3_8 else 8,
                 col_offset=4,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -327,7 +330,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=4,
+                lineno=5 if IS_PYTHON_3_8 else 4,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
@@ -358,7 +361,7 @@ class TestReturnValueInlineCallbacks(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=4,
+                lineno=5 if IS_PYTHON_3_8 else 4,
                 col_offset=0,
                 message=dlint.linters.ReturnValueInInlineCallbacksLinter._error_tmpl
             )
