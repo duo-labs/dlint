@@ -176,3 +176,21 @@ def module_path(node):
         return [node.id]
     else:
         return []
+
+
+def same_modules(s1, s2):
+    """Compare two module strings where submodules of an illegal
+    parent module should also be illegal. I.e. blacklisting 'foo.bar'
+    should also make 'foo.bar.baz' illegal.
+
+    The first argument should 'encompass' the second, not the other way
+    around. I.e. passing same_modules('foo', 'foo.bar') will return True,
+    but same_modules('foo.bar', 'foo') will not.
+    """
+    modules1 = s1.split(".")
+    modules2 = s2.split(".")
+
+    return (
+        len(modules1) <= len(modules2)
+        and all(m1 == m2 for (m1, m2) in zip(modules1, modules2))
+    )

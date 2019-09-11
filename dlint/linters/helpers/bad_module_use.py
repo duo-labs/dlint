@@ -10,6 +10,7 @@ from __future__ import (
 import abc
 
 from .. import base
+from ... import tree
 from ... import util
 
 
@@ -41,24 +42,6 @@ class BadModuleUseLinter(base.BaseLinter, util.ABC):
         """
         return []
 
-    @staticmethod
-    def same_modules(s1, s2):
-        """Compare two module strings where submodules of an illegal
-        parent module should also be illegal. I.e. blacklisting 'foo.bar'
-        should also make 'foo.bar.baz' illegal.
-
-        The first argument should 'encompass' the second, not the other way
-        around. I.e. passing same_modules('foo', 'foo.bar') will return True,
-        but same_modules('foo.bar', 'foo') will not.
-        """
-        modules1 = s1.split(".")
-        modules2 = s2.split(".")
-
-        return (
-            len(modules1) <= len(modules2)
-            and all(m1 == m2 for (m1, m2) in zip(modules1, modules2))
-        )
-
     def visit_Import(self, node):
         import_names = [
             alias.name for alias in node.names
@@ -66,7 +49,7 @@ class BadModuleUseLinter(base.BaseLinter, util.ABC):
         ]
 
         bad_import = any(
-            self.same_modules(illegal_module, name)
+            tree.same_modules(illegal_module, name)
             for illegal_module in self.illegal_modules
             for name in import_names
         )
@@ -95,7 +78,7 @@ class BadModuleUseLinter(base.BaseLinter, util.ABC):
         ]
 
         bad_from_import = any(
-            self.same_modules(illegal_module, name)
+            tree.same_modules(illegal_module, name)
             for illegal_module in self.illegal_modules
             for name in from_import_names
         )
