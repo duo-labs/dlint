@@ -69,12 +69,9 @@ class BadModuleUseLinter(base.BaseLinter, util.ABC):
             return
 
         from_import_names = [
-            ".".join([node.module, alias.name])
+            node.module + "." + alias.name
             for alias in node.names
-        ]
-        from_import_names = [
-            import_name for import_name in from_import_names
-            if import_name not in self.whitelisted_modules
+            if node.module + "." + alias.name not in self.whitelisted_modules
         ]
 
         bad_from_import = any(
