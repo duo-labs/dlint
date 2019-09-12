@@ -10,6 +10,7 @@ from . import helpers  # noqa F401
 
 from .bad_commands_use import BadCommandsUseLinter
 from .bad_compile_use import BadCompileUseLinter
+from .bad_cryptography_module_attribute_use import BadCryptographyModuleAttributeUseLinter
 from .bad_dl_use import BadDlUseLinter
 from .bad_duo_client_use import BadDuoClientUseLinter
 from .bad_gl_use import BadGlUseLinter
@@ -45,6 +46,7 @@ from .yield_return_statement import YieldReturnStatementLinter
 ALL = (
     BadCommandsUseLinter,
     BadCompileUseLinter,
+    BadCryptographyModuleAttributeUseLinter,
     BadDlUseLinter,
     BadDuoClientUseLinter,
     BadGlUseLinter,
