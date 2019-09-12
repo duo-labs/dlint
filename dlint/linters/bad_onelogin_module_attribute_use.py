@@ -28,10 +28,4 @@ class BadOneLoginModuleAttributeUseLinter(bad_module_attribute_use.BadModuleAttr
                 'DSA_SHA1',
                 'TRIPLEDES_CBC',
             ],
-            'OneLogin_Saml2_Constants': [
-                'SHA1',
-                'RSA_SHA1',
-                'DSA_SHA1',
-                'TRIPLEDES_CBC',
-            ],
         }
