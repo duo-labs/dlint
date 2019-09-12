@@ -8,7 +8,6 @@ from __future__ import (
 )
 
 import abc
-import ast
 
 from .. import base
 from ... import tree
@@ -73,30 +72,34 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
             self.illegal_calls.append(node)
 
     def visit_Attribute(self, node):
-        if isinstance(node.value, (ast.Attribute, ast.Name)):
-            module_path = '.'.join(tree.module_path(node.value))
+        # Avoid calling self.generic_visit(node) - attribute visiting starts
+        # at the highest attribute in the AST, which cooresponds to the most
+        # deeply nested attribute. I.e. if we have foo.bar.baz we'll always
+        # start at baz. This is beneficial because our module_path algorithm
+        # can tell on the highest attribute whether or not the full path should
+        # be marked, so testing deeper attributes accomplishes nothing.
 
-            def illegal_module(mod):
-                return (
-                    # Assuming you can't have a period ('.') in names brought
-                    # into a module's namespace
-                    (module_path == mod and (self.namespace.name_imported(mod) or '.' in mod))
-                    or module_path in self.illegal_import_aliases
-                )
+        module_path = '.'.join(tree.module_path(node.value))
 
-            illegal_attribute_use = any(
-                illegal_module(module) and node.attr in attributes
-                for module, attributes in self.illegal_module_attributes.items()
+        def illegal_module_used(illegal_module):
+            return (
+                self.namespace.illegal_module_imported(module_path, illegal_module)
+                or module_path in self.illegal_import_aliases
             )
 
-            if illegal_attribute_use:
-                self.results.append(
-                    base.Flake8Result(
-                        lineno=node.lineno,
-                        col_offset=node.col_offset,
-                        message=self._error_tmpl
-                    )
+        illegal_attribute_use = any(
+            node.attr in attributes and illegal_module_used(illegal_module)
+            for illegal_module, attributes in self.illegal_module_attributes.items()
+        )
+
+        if illegal_attribute_use:
+            self.results.append(
+                base.Flake8Result(
+                    lineno=node.lineno,
+                    col_offset=node.col_offset,
+                    message=self._error_tmpl
                 )
+            )
 
     def visit_Import(self, node):
         self.illegal_import_aliases.extend([

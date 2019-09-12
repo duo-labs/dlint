@@ -47,3 +47,37 @@ class Namespace(object):
             for imp in self.imports + self.from_imports
             for alias in imp.names
         )
+
+    def illegal_module_imported(self, module_path, illegal_module_path):
+        modules = module_path.split('.')
+
+        # 'm1.m2.m3.m4' -> ['m1', 'm1.m2', 'm1.m2.m3', 'm1.m2.m3.m4']
+        nested_module_imports = [
+            '.'.join(modules[:i + 1])
+            for i in range(len(modules))
+        ]
+        nested_module_imported = any(
+            (
+                alias.name == nested_module_import
+                and module_path == illegal_module_path
+            )
+            for imp in self.imports
+            for alias in imp.names
+            for nested_module_import in nested_module_imports
+        )
+        if nested_module_imported:
+            return True
+
+        nested_module_from_imported = any(
+            (
+                alias.name == modules[0]
+                and (imp.module + '.' + module_path) == illegal_module_path
+            )
+            for imp in self.from_imports
+            for alias in imp.names
+            if imp.module is not None  # Relative import, e.g. 'from .'
+        )
+        if nested_module_from_imported:
+            return True
+
+        return False

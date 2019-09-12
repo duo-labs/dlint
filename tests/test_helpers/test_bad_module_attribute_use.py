@@ -290,7 +290,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         )
 
         linter = get_bad_module_attribute_use_implementation(
-            {'bar.baz': ['qux']}
+            {'foo.bar.baz': ['qux']}
         )
         linter.visit(python_node)
 
@@ -367,6 +367,140 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         expected = []
 
         assert result == expected
+
+    def test_module_attribute_arbitrary_depth_usage_legacy(self):
+        python_node = self.get_ast_node(
+            """
+            import m1
+            from m1 import m2
+            from m1.m2 import m3
+            from m1.m2.m3 import m4
+
+            m1.m2.m3.m4.bad_attribute()
+            m2.m3.m4.bad_attribute()
+            m3.m4.bad_attribute()
+            m4.bad_attribute()
+            """
+        )
+
+        linter = get_bad_module_attribute_use_implementation({
+            'm1.m2.m3.m4': ['bad_attribute'],
+            'm2.m3.m4': ['bad_attribute'],
+            'm3.m4': ['bad_attribute'],
+            'm4': ['bad_attribute'],
+        })
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=7,
+                col_offset=0,
+                message=linter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=8,
+                col_offset=0,
+                message=linter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=9,
+                col_offset=0,
+                message=linter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=10,
+                col_offset=0,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_module_attribute_arbitrary_depth_usage_new(self):
+        python_node = self.get_ast_node(
+            """
+            import m1
+            from m1 import m2
+            from m1.m2 import m3
+            from m1.m2.m3 import m4
+
+            m1.m2.m3.m4.bad_attribute()
+            m2.m3.m4.bad_attribute()
+            m3.m4.bad_attribute()
+            m4.bad_attribute()
+            """
+        )
+
+        linter = get_bad_module_attribute_use_implementation({
+            'm1.m2.m3.m4': ['bad_attribute'],
+        })
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=7,
+                col_offset=0,
+                message=linter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=8,
+                col_offset=0,
+                message=linter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=9,
+                col_offset=0,
+                message=linter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=10,
+                col_offset=0,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_module_attribute_arbitrary_import_depth_usage_new(self):
+        python_strings = [
+            """
+            import m1
+            m1.m2.m3.m4.bad_attribute()
+            """,
+            """
+            import m1.m2
+            m1.m2.m3.m4.bad_attribute()
+            """,
+            """
+            import m1.m2.m3
+            m1.m2.m3.m4.bad_attribute()
+            """,
+            """
+            import m1.m2.m3.m4
+            m1.m2.m3.m4.bad_attribute()
+            """,
+        ]
+
+        for python_string in python_strings:
+            python_node = self.get_ast_node(python_string)
+
+            linter = get_bad_module_attribute_use_implementation({
+                'm1.m2.m3.m4': ['bad_attribute'],
+            })
+            linter.visit(python_node)
+
+            result = linter.get_results()
+            expected = [
+                dlint.linters.base.Flake8Result(
+                    lineno=3,
+                    col_offset=0,
+                    message=linter._error_tmpl
+                )
+            ]
+
+            assert result == expected
 
 
 if __name__ == "__main__":
