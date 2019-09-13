@@ -8,6 +8,7 @@ from __future__ import (
 )
 
 import ast
+import sys
 
 
 def decorator_name(decorator):
@@ -84,10 +85,16 @@ def non_empty_return(_return):
 
 
 def walk_callback_same_scope(node, callback):
+    is_python_3_5 = sys.version_info >= (3, 5)
+
     # If we change scope, e.g. enter into a new
     # class or function definition, then halt iteration
+    scopes = (ast.ClassDef, ast.FunctionDef)
+    if is_python_3_5:
+        scopes += (ast.AsyncFunctionDef,)
+
     def scope_predicate(inner_node):
-        return not isinstance(inner_node, (ast.ClassDef, ast.FunctionDef))
+        return not isinstance(inner_node, scopes)
 
     walk_callback(node, callback, predicate=scope_predicate)
 

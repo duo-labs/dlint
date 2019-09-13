@@ -7,9 +7,12 @@ from __future__ import (
     unicode_literals,
 )
 
+import sys
 import unittest
 
 import dlint
+
+IS_PYTHON_3_5 = sys.version_info >= (3, 5)
 
 
 def get_bad_name_attribute_use_implementation(illegal_name_attributes):
@@ -129,6 +132,40 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    @unittest.skipUnless(IS_PYTHON_3_5, 'async statements introduced in Python 3.5')
+    def test_bad_name_attributes_async_nested(self):
+        python_node = self.get_ast_node(
+            """
+            import bar
+
+            async def func():
+                async def inner_func():
+                    obj = bar.Baz()
+                    return obj.foo()
+            return
+            """
+        )
+
+        linter = get_bad_name_attribute_use_implementation(
+            {
+                'foo': [
+                    ['bar', 'Baz'],
+                ],
+            }
+        )
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=7,
+                col_offset=15,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
     def test_bad_name_attributes_nested_overwrite(self):
         python_node = self.get_ast_node(
             """
@@ -138,6 +175,36 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
                 obj = bar.Qux()
 
                 def inner_func():
+                    obj = bar.Baz()
+
+                return obj.foo()
+            """
+        )
+
+        linter = get_bad_name_attribute_use_implementation(
+            {
+                'foo': [
+                    ['bar', 'Baz'],
+                ],
+            }
+        )
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = []
+
+        assert result == expected
+
+    @unittest.skipUnless(IS_PYTHON_3_5, 'async statements introduced in Python 3.5')
+    def test_bad_name_attributes_async_nested_overwrite(self):
+        python_node = self.get_ast_node(
+            """
+            import bar
+
+            def func():
+                obj = bar.Qux()
+
+                async def inner_func():
                     obj = bar.Baz()
 
                 return obj.foo()

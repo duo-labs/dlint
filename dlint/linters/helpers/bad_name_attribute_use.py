@@ -107,3 +107,6 @@ class BadNameAttributeUseLinter(base.BaseLinter, util.ABC):
             )
             for result in results
         ])
+
+    def visit_AsyncFunctionDef(self, node):
+        self.visit_FunctionDef(node)
