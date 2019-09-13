@@ -38,47 +38,44 @@ class BadOneLoginKwargUseLinter(bad_kwarg_use.BadKwargUseLinter):
             )
 
         def insecure_algorithm(call, kwarg_name):
-            # Short-circuit evaluation
-            return any(
-                fn() for fn in [
-                    functools.partial(
-                        tree.kwarg_str,
-                        call,
-                        kwarg_name,
-                        "http://www.w3.org/2000/09/xmldsig#sha1"
-                    ),
-                    functools.partial(
-                        tree.kwarg_str,
-                        call,
-                        kwarg_name,
-                        "http://www.w3.org/2000/09/xmldsig#rsa-sha1"
-                    ),
-                    functools.partial(
-                        tree.kwarg_str,
-                        call,
-                        kwarg_name,
-                        "http://www.w3.org/2000/09/xmldsig#dsa-sha1"
-                    ),
-                    functools.partial(
-                        tree.kwarg_attribute,
-                        call,
-                        kwarg_name,
-                        ["OneLogin_Saml2_Constants", "SHA1"]
-                    ),
-                    functools.partial(
-                        tree.kwarg_attribute,
-                        call,
-                        kwarg_name,
-                        ["OneLogin_Saml2_Constants", "RSA_SHA1"]
-                    ),
-                    functools.partial(
-                        tree.kwarg_attribute,
-                        call,
-                        kwarg_name,
-                        ["OneLogin_Saml2_Constants", "DSA_SHA1"]
-                    ),
-                ]
-            )
+            return tree.kwarg_any([
+                functools.partial(
+                    tree.kwarg_str,
+                    call,
+                    kwarg_name,
+                    "http://www.w3.org/2000/09/xmldsig#sha1"
+                ),
+                functools.partial(
+                    tree.kwarg_str,
+                    call,
+                    kwarg_name,
+                    "http://www.w3.org/2000/09/xmldsig#rsa-sha1"
+                ),
+                functools.partial(
+                    tree.kwarg_str,
+                    call,
+                    kwarg_name,
+                    "http://www.w3.org/2000/09/xmldsig#dsa-sha1"
+                ),
+                functools.partial(
+                    tree.kwarg_attribute,
+                    call,
+                    kwarg_name,
+                    ["OneLogin_Saml2_Constants", "SHA1"]
+                ),
+                functools.partial(
+                    tree.kwarg_attribute,
+                    call,
+                    kwarg_name,
+                    ["OneLogin_Saml2_Constants", "RSA_SHA1"]
+                ),
+                functools.partial(
+                    tree.kwarg_attribute,
+                    call,
+                    kwarg_name,
+                    ["OneLogin_Saml2_Constants", "DSA_SHA1"]
+                ),
+            ])
 
         def missing_or_insecure_algorithm(call, kwarg_name):
             return (

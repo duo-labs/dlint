@@ -27,35 +27,32 @@ class BadUrllib3KwargUseLinter(bad_kwarg_use.BadKwargUseLinter):
     def kwargs(self):
         # See 'urllib3.util.ssl_.resolve_cert_reqs' for more information
         def unverified_cert_reqs(call, kwarg_name):
-            # Short-circuit evaluation
-            return any(
-                fn() for fn in [
-                    functools.partial(
-                        tree.kwarg_str,
-                        call,
-                        kwarg_name,
-                        "CERT_NONE"
-                    ),
-                    functools.partial(
-                        tree.kwarg_str,
-                        call,
-                        kwarg_name,
-                        "NONE"
-                    ),
-                    functools.partial(
-                        tree.kwarg_attribute,
-                        call,
-                        kwarg_name,
-                        ["CERT_NONE"]
-                    ),
-                    functools.partial(
-                        tree.kwarg_attribute,
-                        call,
-                        kwarg_name,
-                        ["ssl", "CERT_NONE"]
-                    ),
-                ]
-            )
+            return tree.kwarg_any([
+                functools.partial(
+                    tree.kwarg_str,
+                    call,
+                    kwarg_name,
+                    "CERT_NONE"
+                ),
+                functools.partial(
+                    tree.kwarg_str,
+                    call,
+                    kwarg_name,
+                    "NONE"
+                ),
+                functools.partial(
+                    tree.kwarg_attribute,
+                    call,
+                    kwarg_name,
+                    ["CERT_NONE"]
+                ),
+                functools.partial(
+                    tree.kwarg_attribute,
+                    call,
+                    kwarg_name,
+                    ["ssl", "CERT_NONE"]
+                ),
+            ])
 
         return [
             {

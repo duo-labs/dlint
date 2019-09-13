@@ -166,6 +166,14 @@ def kwarg_attribute(call, kwarg_name, attribute):
     )
 
 
+def kwarg_any(kwarg_functions):
+    """Resolve kwarg predicates with short-circuit evaluation. This optimization
+    technique means we do not have to evaluate every predicate if one is already
+    true.
+    """
+    return any(kwarg_function() for kwarg_function in kwarg_functions)
+
+
 def module_path(node):
     """Recursively walk up a series of node attributes.
     E.g. if we have foo.bar.baz, iterate baz -> bar -> foo.
