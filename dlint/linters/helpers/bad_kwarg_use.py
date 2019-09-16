@@ -28,7 +28,7 @@ class BadKwargUseLinter(base.BaseLinter, util.ABC):
 
             [
                 {
-                    "attribute_name": "name1",
+                    "attribute_name": "name1|mod1.mod2.name1",
                     "kwarg_name": "kwarg1",
                     "predicate": <function>,
                 },
@@ -37,6 +37,15 @@ class BadKwargUseLinter(base.BaseLinter, util.ABC):
         Which would represent 'name1(kwarg1=...)' where 'predicate' is a
         function that takes the Call object and a kwarg name and returns
         True|False.
+
+        The "attribute_name" has been overloaded to behave differently if a
+        period (".") is included or not. This key can now take a value like
+        "attribute" or "module1.module2.attribute". This is a temporary,
+        backwards-compatible change to allow us to more accurately specify an
+        attribute from a specific module. E.g. "subprocess.Popen(shell=True)"
+        vs. just "Popen(shell=True)". In the future we should deprecate and
+        eventually remove the old behavior in favor of fully specified module
+        attributes.
         """
 
     def visit_Call(self, node):
@@ -45,9 +54,20 @@ class BadKwargUseLinter(base.BaseLinter, util.ABC):
         if not isinstance(node.func, (ast.Attribute, ast.Name)):
             return
 
+        def compare_attribute_name_and_call(attribute, call_node):
+            if "." not in attribute:
+                return attribute == tree.call_name(call_node)
+
+            module_path = ".".join(tree.module_path(node.func))
+
+            return self.namespace.illegal_module_imported(
+                module_path,
+                attribute
+            )
+
         bad_kwarg = any(
             (
-                kwarg["attribute_name"] == tree.call_name(node)
+                compare_attribute_name_and_call(kwarg["attribute_name"], node)
                 and kwarg["predicate"](node, kwarg["kwarg_name"])
             )
             for kwarg in self.kwargs

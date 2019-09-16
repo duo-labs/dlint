@@ -422,6 +422,119 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_kwargs_present_module_path(self):
+        python_node = self.get_ast_node(
+            """
+            import foo
+
+            foo.bar.baz(kwarg="test")
+            """
+        )
+
+        linter = get_bad_kwarg_use_implementation(
+            [
+                {
+                    "attribute_name": "foo.bar.baz",
+                    "kwarg_name": "kwarg",
+                    "predicate": dlint.tree.kwarg_present,
+                },
+            ]
+        )
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=4,
+                col_offset=0,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_kwargs_present_different_module_path(self):
+        python_node = self.get_ast_node(
+            """
+            import foo
+            import boo
+
+            boo.bar.baz(kwarg="test")
+            """
+        )
+
+        linter = get_bad_kwarg_use_implementation(
+            [
+                {
+                    "attribute_name": "foo.bar.baz",
+                    "kwarg_name": "kwarg",
+                    "predicate": dlint.tree.kwarg_present,
+                },
+            ]
+        )
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = []
+
+        assert result == expected
+
+    def test_kwargs_present_from_module_path(self):
+        python_node = self.get_ast_node(
+            """
+            from foo import bar
+
+            bar.baz(kwarg="test")
+            """
+        )
+
+        linter = get_bad_kwarg_use_implementation(
+            [
+                {
+                    "attribute_name": "foo.bar.baz",
+                    "kwarg_name": "kwarg",
+                    "predicate": dlint.tree.kwarg_present,
+                },
+            ]
+        )
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=4,
+                col_offset=0,
+                message=linter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_kwargs_missing_module_path(self):
+        python_node = self.get_ast_node(
+            """
+            import foo
+
+            foo.bar.baz(kwarg="test")
+            """
+        )
+
+        linter = get_bad_kwarg_use_implementation(
+            [
+                {
+                    "attribute_name": "foo.bar.baz",
+                    "kwarg_name": "kwarg",
+                    "predicate": dlint.tree.kwarg_not_present,
+                },
+            ]
+        )
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = []
+
+        assert result == expected
+
 
 if __name__ == "__main__":
     unittest.main()
