@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support for Python 3.8 ([#12](https://github.com/duo-labs/dlint/issues/12))
 - `DUO134`: lint for insecure cryptography usage ([#6](https://github.com/duo-labs/dlint/issues/6))
+- `DUO135`: lint for insecure defusedxml usage ([#5](https://github.com/duo-labs/dlint/issues/5))
 
 ### Fixed
 - False negative when deep imports are not fully specified in bad module attribute ([#1](https://github.com/duo-labs/dlint/issues/1))
