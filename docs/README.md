@@ -38,6 +38,7 @@ Dlint uses a simple, folder-based hierarchy written in [Markdown](https://en.wik
 * [DUO132](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO132.md)
 * [DUO133](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO133.md)
 * [DUO134](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO134.md)
+* [DUO135](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO135.md)
 
 # FAQs
 
