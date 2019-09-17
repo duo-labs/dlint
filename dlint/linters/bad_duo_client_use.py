@@ -30,42 +30,42 @@ class BadDuoClientUseLinter(bad_kwarg_use.BadKwargUseLinter):
 
         return [
             {
-                "attribute_name": "Client",
+                "module_path": "duo_client.Client",
                 "kwarg_name": "ca_certs",
                 "predicate": http_or_disable,
             },
             {
-                "attribute_name": "AsyncDuoClient",
+                "module_path": "duo_client.AsyncDuoClient",
                 "kwarg_name": "ca_certs",
                 "predicate": http_or_disable,
             },
             {
-                "attribute_name": "Auth",
+                "module_path": "duo_client.Auth",
                 "kwarg_name": "ca_certs",
                 "predicate": http_or_disable,
             },
             {
-                "attribute_name": "AuthAPI",
+                "module_path": "duo_client.AuthAPI",
                 "kwarg_name": "ca_certs",
                 "predicate": http_or_disable,
             },
             {
-                "attribute_name": "Admin",
+                "module_path": "duo_client.Admin",
                 "kwarg_name": "ca_certs",
                 "predicate": http_or_disable,
             },
             {
-                "attribute_name": "AdminAPI",
+                "module_path": "duo_client.AdminAPI",
                 "kwarg_name": "ca_certs",
                 "predicate": http_or_disable,
             },
             {
-                "attribute_name": "Accounts",
+                "module_path": "duo_client.Accounts",
                 "kwarg_name": "ca_certs",
                 "predicate": http_or_disable,
             },
             {
-                "attribute_name": "AccountsAPI",
+                "module_path": "duo_client.AccountsAPI",
                 "kwarg_name": "ca_certs",
                 "predicate": http_or_disable,
             },

@@ -33,7 +33,7 @@ class BadXmlrpcUseLinter(bad_kwarg_use.BadKwargUseLinter):
     def kwargs(self):
         return [
             {
-                "attribute_name": "register_instance",
+                "module_path": "SimpleXMLRPCServer.register_instance",
                 "kwarg_name": "allow_dotted_names",
                 "predicate": tree.kwarg_true,
             },

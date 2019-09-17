@@ -32,22 +32,22 @@ class BadSubprocessUseLinter(bad_kwarg_use.BadKwargUseLinter):
     def kwargs(self):
         return [
             {
-                "attribute_name": "call",
+                "module_path": "subprocess.call",
                 "kwarg_name": "shell",
                 "predicate": tree.kwarg_present,
             },
             {
-                "attribute_name": "check_call",
+                "module_path": "subprocess.check_call",
                 "kwarg_name": "shell",
                 "predicate": tree.kwarg_present,
             },
             {
-                "attribute_name": "check_output",
+                "module_path": "subprocess.check_output",
                 "kwarg_name": "shell",
                 "predicate": tree.kwarg_present,
             },
             {
-                "attribute_name": "Popen",
+                "module_path": "subprocess.Popen",
                 "kwarg_name": "shell",
                 "predicate": tree.kwarg_present,
             },

@@ -56,27 +56,27 @@ class BadUrllib3KwargUseLinter(bad_kwarg_use.BadKwargUseLinter):
 
         return [
             {
-                "attribute_name": "PoolManager",
+                "module_path": "urllib3.PoolManager",
                 "kwarg_name": "cert_reqs",
                 "predicate": unverified_cert_reqs,
             },
             {
-                "attribute_name": "ProxyManager",
+                "module_path": "urllib3.ProxyManager",
                 "kwarg_name": "cert_reqs",
                 "predicate": unverified_cert_reqs,
             },
             {
-                "attribute_name": "HTTPSConnectionPool",
+                "module_path": "urllib3.HTTPSConnectionPool",
                 "kwarg_name": "cert_reqs",
                 "predicate": unverified_cert_reqs,
             },
             {
-                "attribute_name": "connection_from_url",
+                "module_path": "urllib3.connection_from_url",
                 "kwarg_name": "cert_reqs",
                 "predicate": unverified_cert_reqs,
             },
             {
-                "attribute_name": "proxy_from_url",
+                "module_path": "urllib3.proxy_from_url",
                 "kwarg_name": "cert_reqs",
                 "predicate": unverified_cert_reqs,
             },

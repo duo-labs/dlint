@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DUO134`: lint for insecure cryptography usage ([#6](https://github.com/duo-labs/dlint/issues/6))
 - `DUO135`: lint for insecure defusedxml usage ([#5](https://github.com/duo-labs/dlint/issues/5))
 
+### Deprecated
+- `dlint.linters.helpers.bad_kwarg_use`: use of 'attribute_name' in favor of fully specified 'module_path'
+
 ### Fixed
 - False negative when deep imports are not fully specified in bad module attribute ([#1](https://github.com/duo-labs/dlint/issues/1))
 - False negative - consider 'async' functions in bad name attribute ([7bd249e](https://github.com/duo-labs/dlint/commit/7bd249e80a91f7c38f2c1f05045a826e0bef3246))

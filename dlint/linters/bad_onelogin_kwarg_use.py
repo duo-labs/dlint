@@ -85,52 +85,52 @@ class BadOneLoginKwargUseLinter(bad_kwarg_use.BadKwargUseLinter):
 
         return [
             {
-                "attribute_name": "calculate_x509_fingerprint",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.calculate_x509_fingerprint",
                 "kwarg_name": "alg",
                 "predicate": functools.partial(missing_or_string, "sha1"),
             },
             {
-                "attribute_name": "add_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.add_sign",
                 "kwarg_name": "sign_algorithm",
                 "predicate": missing_or_insecure_algorithm,
             },
             {
-                "attribute_name": "add_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.add_sign",
                 "kwarg_name": "digest_algorithm",
                 "predicate": missing_or_insecure_algorithm,
             },
             {
-                "attribute_name": "validate_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.validate_sign",
                 "kwarg_name": "fingerprintalg",
                 "predicate": functools.partial(missing_or_string, "sha1"),
             },
             {
-                "attribute_name": "validate_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.validate_sign",
                 "kwarg_name": "validatecert",
                 "predicate": missing_or_false,
             },
             {
-                "attribute_name": "validate_metadata_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.validate_metadata_sign",
                 "kwarg_name": "fingerprintalg",
                 "predicate": functools.partial(missing_or_string, "sha1"),
             },
             {
-                "attribute_name": "validate_metadata_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.validate_metadata_sign",
                 "kwarg_name": "validatecert",
                 "predicate": missing_or_false,
             },
             {
-                "attribute_name": "validate_node_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.validate_node_sign",
                 "kwarg_name": "fingerprintalg",
                 "predicate": functools.partial(missing_or_string, "sha1"),
             },
             {
-                "attribute_name": "validate_node_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.validate_node_sign",
                 "kwarg_name": "validatecert",
                 "predicate": missing_or_false,
             },
             {
-                "attribute_name": "validate_binary_sign",
+                "module_path": "onelogin.saml2.utils.OneLogin_Saml2_Utils.validate_binary_sign",
                 "kwarg_name": "algorithm",
                 "predicate": missing_or_insecure_algorithm,
             }
