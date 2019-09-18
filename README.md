@@ -1,8 +1,8 @@
 # Dlint
 
 [![Build Status](https://travis-ci.org/duo-labs/dlint.svg?branch=master)](https://travis-ci.org/duo-labs/dlint)
-[![Python Versions](https://img.shields.io/pypi/pyversions/dlint.svg)](https://img.shields.io/pypi/pyversions/dlint.svg)
-[![PyPI Version](https://img.shields.io/pypi/v/dlint.svg)](https://img.shields.io/pypi/v/dlint.svg)
+[![Python Versions](https://img.shields.io/pypi/pyversions/dlint.svg)](https://pypi.org/project/dlint/)
+[![PyPI Version](https://img.shields.io/pypi/v/dlint.svg)](https://pypi.org/project/dlint/)
 
 Dlint is a tool for encouraging best coding practices and helping ensure we're
 writing secure Python code.
