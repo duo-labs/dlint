@@ -41,16 +41,11 @@ class BadUrllib3KwargUseLinter(bad_kwarg_use.BadKwargUseLinter):
                     "NONE"
                 ),
                 functools.partial(
-                    tree.kwarg_attribute,
+                    tree.kwarg_module_path,
                     call,
                     kwarg_name,
-                    ["CERT_NONE"]
-                ),
-                functools.partial(
-                    tree.kwarg_attribute,
-                    call,
-                    kwarg_name,
-                    ["ssl", "CERT_NONE"]
+                    "ssl.CERT_NONE",
+                    self.namespace
                 ),
             ])
 

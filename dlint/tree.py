@@ -9,6 +9,7 @@ from __future__ import (
 
 import ast
 import sys
+import warnings
 
 
 def decorator_name(decorator):
@@ -165,10 +166,26 @@ def kwarg_str(call, kwarg_name, s):
 
 
 def kwarg_attribute(call, kwarg_name, attribute):
+    warnings.warn(
+        "'kwarg_attribute' deprecated, please use 'kwarg_module_path'",
+        DeprecationWarning
+    )
     return any(
         keyword.arg == kwarg_name
         and isinstance(keyword.value, (ast.Attribute, ast.Name))
         and module_path(keyword.value) == attribute
+        for keyword in call.keywords
+    )
+
+
+def kwarg_module_path(call, kwarg_name, illegal_module_path, namespace):
+    return any(
+        keyword.arg == kwarg_name
+        and isinstance(keyword.value, (ast.Attribute, ast.Name))
+        and namespace.illegal_module_imported(
+            module_path_str(keyword.value),
+            illegal_module_path
+        )
         for keyword in call.keywords
     )
 
@@ -191,6 +208,13 @@ def module_path(node):
         return [node.id]
     else:
         return []
+
+
+def module_path_str(node):
+    """Return module path as a string instead of a list.
+    E.g. "foo.bar.baz" instead of ["foo", "bar", "baz"].
+    """
+    return ".".join(module_path(node))
 
 
 def same_modules(s1, s2):

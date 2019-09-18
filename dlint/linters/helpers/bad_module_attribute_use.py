@@ -79,17 +79,17 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
         # can tell on the highest attribute whether or not the full path should
         # be marked, so testing deeper attributes accomplishes nothing.
 
-        module_path = '.'.join(tree.module_path(node.value))
+        module_path = tree.module_path_str(node.value)
 
-        def illegal_module_used(illegal_module):
+        def illegal_module_used(illegal_module_path):
             return (
-                self.namespace.illegal_module_imported(module_path, illegal_module)
+                self.namespace.illegal_module_imported(module_path, illegal_module_path)
                 or module_path in self.illegal_import_aliases
             )
 
         illegal_attribute_use = any(
-            node.attr in attributes and illegal_module_used(illegal_module)
-            for illegal_module, attributes in self.illegal_module_attributes.items()
+            node.attr in attributes and illegal_module_used(illegal_module_path)
+            for illegal_module_path, attributes in self.illegal_module_attributes.items()
         )
 
         if illegal_attribute_use:

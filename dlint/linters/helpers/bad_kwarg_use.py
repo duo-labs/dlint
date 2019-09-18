@@ -62,7 +62,7 @@ class BadKwargUseLinter(base.BaseLinter, util.ABC):
                 )
                 return kwarg["attribute_name"] == tree.call_name(call_node)
 
-            module_path = ".".join(tree.module_path(node.func))
+            module_path = tree.module_path_str(node.func)
 
             return self.namespace.illegal_module_imported(
                 module_path,

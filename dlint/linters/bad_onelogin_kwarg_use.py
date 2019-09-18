@@ -58,22 +58,25 @@ class BadOneLoginKwargUseLinter(bad_kwarg_use.BadKwargUseLinter):
                     "http://www.w3.org/2000/09/xmldsig#dsa-sha1"
                 ),
                 functools.partial(
-                    tree.kwarg_attribute,
+                    tree.kwarg_module_path,
                     call,
                     kwarg_name,
-                    ["OneLogin_Saml2_Constants", "SHA1"]
+                    "onelogin.saml2.constants.OneLogin_Saml2_Constants.SHA1",
+                    self.namespace
                 ),
                 functools.partial(
-                    tree.kwarg_attribute,
+                    tree.kwarg_module_path,
                     call,
                     kwarg_name,
-                    ["OneLogin_Saml2_Constants", "RSA_SHA1"]
+                    "onelogin.saml2.constants.OneLogin_Saml2_Constants.RSA_SHA1",
+                    self.namespace
                 ),
                 functools.partial(
-                    tree.kwarg_attribute,
+                    tree.kwarg_module_path,
                     call,
                     kwarg_name,
-                    ["OneLogin_Saml2_Constants", "DSA_SHA1"]
+                    "onelogin.saml2.constants.OneLogin_Saml2_Constants.DSA_SHA1",
+                    self.namespace
                 ),
             ])
 

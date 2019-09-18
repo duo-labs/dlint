@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 - `dlint.linters.helpers.bad_kwarg_use`: use of 'attribute_name' in favor of fully specified 'module_path' ([#19](https://github.com/duo-labs/dlint/issues/19))
+- `dlint.tree`: use of 'kwarg_attribute' in favor of 'kwarg_module_path' ([#21](https://github.com/duo-labs/dlint/issues/21))
 
 ### Fixed
 - False negative when deep imports are not fully specified in bad module attribute ([#1](https://github.com/duo-labs/dlint/issues/1))
