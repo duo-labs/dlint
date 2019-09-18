@@ -23,6 +23,7 @@ class TestBadSubprocessUse(dlint.test.base.BaseTest):
             subprocess.check_call(shell=True)
             subprocess.check_output(shell=True)
             subprocess.Popen(shell=True)
+            subprocess.run(shell=True)
             """
         )
 
@@ -48,6 +49,11 @@ class TestBadSubprocessUse(dlint.test.base.BaseTest):
             ),
             dlint.linters.base.Flake8Result(
                 lineno=7,
+                col_offset=0,
+                message=dlint.linters.BadSubprocessUseLinter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=8,
                 col_offset=0,
                 message=dlint.linters.BadSubprocessUseLinter._error_tmpl
             ),
