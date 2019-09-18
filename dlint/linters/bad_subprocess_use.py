@@ -51,4 +51,9 @@ class BadSubprocessUseLinter(bad_kwarg_use.BadKwargUseLinter):
                 "kwarg_name": "shell",
                 "predicate": tree.kwarg_present,
             },
+            {
+                "module_path": "subprocess.run",
+                "kwargs_name": "shell",
+                "predicate": tree.kwarg_present,
+            }
         ]
