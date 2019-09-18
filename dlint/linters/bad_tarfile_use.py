@@ -24,15 +24,11 @@ class BadTarfileUseLinter(bad_name_attribute_use.BadNameAttributeUseLinter):
     def illegal_name_attributes(self):
         return {
             "extract": [
-                ["tarfile", "TarFile", "open"],
-                ["tarfile", "TarFile"],
-                ["TarFile", "open"],
-                ["TarFile"],
+                "tarfile.TarFile.open",
+                "tarfile.TarFile",
             ],
             "extractall": [
-                ["tarfile", "TarFile", "open"],
-                ["tarfile", "TarFile"],
-                ["TarFile", "open"],
-                ["TarFile"],
+                "tarfile.TarFile.open",
+                "tarfile.TarFile",
             ]
         }

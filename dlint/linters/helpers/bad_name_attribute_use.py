@@ -10,6 +10,7 @@ from __future__ import (
 import abc
 import ast
 import collections
+import warnings
 
 from .. import base
 from ... import tree
@@ -75,11 +76,30 @@ class BadNameAttributeUseLinter(base.BaseLinter, util.ABC):
             variable = inner_node.func.value.id
             attribute = inner_node.func.attr
 
+            def compare_target_and_attribute(inner_attribute, target):
+                if inner_attribute not in self.illegal_name_attributes:
+                    return False
+
+                if (self.illegal_name_attributes[inner_attribute]
+                        and isinstance(self.illegal_name_attributes[inner_attribute][0], list)):
+                    warnings.warn(
+                        "modules as a list is deprecated, please use fully specified module path",
+                        DeprecationWarning
+                    )
+                    return target.module_path in self.illegal_name_attributes[inner_attribute]
+
+                return any(
+                    self.namespace.illegal_module_imported(
+                        ".".join(target.module_path),
+                        illegal_name
+                    )
+                    for illegal_name in self.illegal_name_attributes[inner_attribute]
+                )
+
             illegal_calls = [
                 target for target in targets
                 if target.variable == variable
-                and attribute in self.illegal_name_attributes
-                and target.module_path in self.illegal_name_attributes[attribute]
+                and compare_target_and_attribute(attribute, target)
             ]
 
             try:

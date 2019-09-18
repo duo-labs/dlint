@@ -24,11 +24,9 @@ class BadZipfileUseLinter(bad_name_attribute_use.BadNameAttributeUseLinter):
     def illegal_name_attributes(self):
         return {
             "extract": [
-                ["zipfile", "ZipFile"],
-                ["ZipFile"],
+                "zipfile.ZipFile",
             ],
             "extractall": [
-                ["zipfile", "ZipFile"],
-                ["ZipFile"],
+                "zipfile.ZipFile",
             ]
         }
