@@ -1,3 +1,5 @@
+[![Duo Labs](labs.jpg)](https://duo.com/labs/)
+
 # Dlint
 
 [![Build Status](https://travis-ci.org/duo-labs/dlint.svg?branch=master)](https://travis-ci.org/duo-labs/dlint)
