@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - `DUO116`: rule for 'subprocess.run' ([#24](https://github.com/duo-labs/dlint/issues/24))
+- The '--print-dlint-linters' command-line flag to print all Dlint linters ([#26](https://github.com/duo-labs/dlint/issues/26))
 
 ## [0.8.0] - 2019-09-18
 ### Added

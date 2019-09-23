@@ -9,7 +9,9 @@ from __future__ import (
 
 import importlib
 import inspect
+import os
 import pkgutil
+import sys
 
 import dlint
 
@@ -22,8 +24,29 @@ class Flake8Extension(object):
         self.tree = tree
         self.filename = filename
 
+    @classmethod
+    def add_options(cls, parser):
+        parser.add_option(
+            '--print-dlint-linters',
+            action='store_true',
+            help='Print Dlint linter information.',
+            parse_from_config=True
+        )
+
+    @classmethod
+    def parse_options(cls, options):
+        if options.print_dlint_linters:
+            code_prefix_len = 7
+            linters = Flake8Extension.get_linter_classes()
+            output_lines = [
+                "{} {} {}".format(l._code, l.__name__, l._error_tmpl[code_prefix_len:])
+                for l in sorted(linters, key=lambda li: li._code)
+            ]
+            print("\n".join(output_lines))
+            sys.exit(os.EX_OK)
+
     @staticmethod
-    def get_plugin_classes():
+    def get_plugin_linter_classes():
         module_prefix = 'dlint_plugin_'
         class_prefix = 'Dlint'
 
@@ -41,9 +64,12 @@ class Flake8Extension(object):
 
         return plugin_classes
 
+    @staticmethod
+    def get_linter_classes():
+        return dlint.linters.ALL + tuple(Flake8Extension.get_plugin_linter_classes())
+
     def run(self):
-        plugin_classes = self.get_plugin_classes()
-        linters = dlint.linters.ALL + tuple(plugin_classes)
+        linters = Flake8Extension.get_linter_classes()
 
         for linter in linters:
             linter_instance = linter()
