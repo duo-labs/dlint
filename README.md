@@ -62,7 +62,7 @@ exec('print("TEST2")')
 
 ```
 $ python -m flake8 --select=DUO test.py
-test.py:5:1: DUO105 use of "exec" not allowed
+test.py:5:1: DUO105 use of "exec" is insecure
 ```
 
 The `--select=DUO` flag tells `flake8` to only run Dlint lint rules.
