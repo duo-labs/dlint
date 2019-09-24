@@ -18,7 +18,7 @@ class BadDuoClientUseLinter(bad_kwarg_use.BadKwargUseLinter):
     off_by_default = False
 
     _code = 'DUO127'
-    _error_tmpl = 'DUO127 avoid "HTTP" or "DISABLE" when using "ca_certs"'
+    _error_tmpl = 'DUO127 use of "ca_certs=HTTP|DISABLE" is insecure in "duo_client" module'
 
     @property
     def kwargs(self):

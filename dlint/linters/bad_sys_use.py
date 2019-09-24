@@ -19,7 +19,7 @@ class BadSysUseLinter(bad_module_attribute_use.BadModuleAttributeUseLinter):
     off_by_default = False
 
     _code = 'DUO111'
-    _error_tmpl = 'DUO111 "sys" function found that could lead to arbitrary code execution'
+    _error_tmpl = 'DUO111 insecure use of "sys" module'
 
     @property
     def illegal_module_attributes(self):

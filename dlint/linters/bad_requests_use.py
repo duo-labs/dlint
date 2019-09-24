@@ -21,7 +21,7 @@ class BadRequestsUseLinter(bad_kwarg_use.BadKwargUseLinter):
     off_by_default = False
 
     _code = 'DUO123'
-    _error_tmpl = 'DUO123 enable SSL verification when using "requests" module'
+    _error_tmpl = 'DUO123 use of "verify=False" is insecure in "requests" module'
 
     @property
     def kwargs(self):

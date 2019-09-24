@@ -18,7 +18,7 @@ class BadEvalUseLinter(bad_builtin_use.BadBuiltinUseLinter):
     off_by_default = False
 
     _code = 'DUO104'
-    _error_tmpl = 'DUO104 use of "eval" not allowed'
+    _error_tmpl = 'DUO104 use of "eval" is insecure'
 
     @property
     def illegal_builtin(self):

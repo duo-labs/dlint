@@ -26,7 +26,7 @@ class BadRandomGeneratorUseLinter(base.BaseLinter):
     off_by_default = False
 
     _code = 'DUO102'
-    _error_tmpl = 'DUO102 improper use of "random" module, please use "random.SystemRandom"'
+    _error_tmpl = 'DUO102 insecure use of "random" module, prefer "random.SystemRandom"'
 
     def visit_Attribute(self, node):
         legal_module_functions = [

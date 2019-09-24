@@ -17,7 +17,7 @@ class BadPickleUseLinter(bad_module_attribute_use.BadModuleAttributeUseLinter):
     off_by_default = False
 
     _code = 'DUO103'
-    _error_tmpl = 'DUO103 improper use of "pickle" or "cPickle"'
+    _error_tmpl = 'DUO103 insecure use of "pickle" or "cPickle"'
 
     @property
     def illegal_module_attributes(self):

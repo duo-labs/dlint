@@ -17,7 +17,7 @@ class BadUrllib3ModuleAttributeUseLinter(bad_module_attribute_use.BadModuleAttri
     off_by_default = False
 
     _code = 'DUO131'
-    _error_tmpl = 'DUO131 urllib3 warnings disabled - insecure connections possible'
+    _error_tmpl = 'DUO131 "urllib3" warnings disabled, insecure connections possible'
 
     @property
     def illegal_module_attributes(self):

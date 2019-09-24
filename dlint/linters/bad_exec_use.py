@@ -19,7 +19,7 @@ class BadExecUseLinter(bad_builtin_use.BadBuiltinUseLinter):
     off_by_default = False
 
     _code = 'DUO105'
-    _error_tmpl = 'DUO105 use of "exec" not allowed'
+    _error_tmpl = 'DUO105 use of "exec" is insecure'
 
     # Python 2
     def visit_Exec(self, node):
