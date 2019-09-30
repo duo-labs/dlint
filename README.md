@@ -44,8 +44,8 @@ Note the `dlint: 0.8.0`.
 
 # Using
 
-Dlint uses `flake8` to perform its linting functionality. This allows us to
-utilize many useful `flake8` features without re-inventing the wheel.
+Dlint uses `flake8` to perform its linting functionality which provides many
+useful features without re-inventing the wheel.
 
 ## CLI
 
