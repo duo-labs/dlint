@@ -1,0 +1,10 @@
+on: [push]
+
+jobs:
+  dlint_job:
+    runs-on: ubuntu-latest
+    name: Dlint job
+    steps:
+    - name: Run Dlint... against Dlint
+      id: dlint
+      uses: mschwager/dlint-action
