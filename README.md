@@ -94,8 +94,9 @@ points for common editors:
 
 # Integrating
 
-Dlint can easily be integrated into CI pipelines, or anything really. For more
-information and examples see [How can I integrate Dlint into XYZ?](https://github.com/duo-labs/dlint/tree/master/docs#how-can-i-integrate-dlint-into-xyz).
+Dlint can easily be integrated into CI pipelines, or anything really.
+
+For more information and examples see ['How can I integrate Dlint into XYZ?'](https://github.com/duo-labs/dlint/tree/master/docs#how-can-i-integrate-dlint-into-xyz).
 
 # Custom Plugins
 
