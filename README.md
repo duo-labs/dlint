@@ -94,81 +94,8 @@ points for common editors:
 
 # Integrating
 
-Dlint can easily be integrated into CI pipelines, or anything really.
-
-## TravisCI
-
-Include Dlint in your `.travis.yml` configuration file:
-
-```
-language: python
-install:
-    - python -m pip install dlint
-script:
-    - python -m flake8 --select=DUO /path/to/code
-```
-
-## CircleCI
-
-Include Dlint in your `.circleci/config.yml` configuration file:
-
-```
-version: 2
-jobs:
-    build:
-        docker:
-            - image: circleci/python
-        steps:
-            - checkout
-            - run: python -m pip install dlint
-            - run: python -m flake8 --select=DUO /path/to/code
-```
-
-## Gitlab
-
-Include Dlint in your `.gitlab-ci.yml` configuration file:
-
-```
-stages:
-    - test
-test:
-    image: python
-    before_script:
-        - python -m pip install dlint
-    script:
-        - python -m flake8 --select=DUO /path/to/code
-```
-
-## Phabricator
-
-Include Dlint in your [Arcanist](https://secure.phabricator.com/book/phabricator/article/arcanist/)
-linting process via the [`.arclint`](https://secure.phabricator.com/book/phabricator/article/arcanist_lint/)
-configuration file:
-```
-{
-    "linters": {
-        "sample": {
-            "type": "flake8"
-        }
-    }
-}
-```
-
-Dlint rules will automatically be run via `flake8` once it's installed, so the
-standard `flake8` configuration will work. You can also utilize more granular
-control over the linting process:
-
-```
-{
-    "linters": {
-        "sample": {
-            "type": "flake8"
-        },
-        "bin": ["python2.7", "python2"],
-        "flags": ["-m", "flake8", "--select", "DUO"]
-    }
-}
-```
+Dlint can easily be integrated into CI pipelines, or anything really. For more
+information and examples see [How can I integrate Dlint into XYZ?](https://github.com/duo-labs/dlint/tree/master/docs#how-can-i-integrate-dlint-into-xyz).
 
 # Custom Plugins
 

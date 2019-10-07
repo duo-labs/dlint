@@ -87,3 +87,79 @@ comprehensive analysis and ensure you're coding with confidence.
 * [Scaling Static Analyses at Facebook (2019)](https://cacm.acm.org/magazines/2019/8/238344-scaling-static-analyses-at-facebook/fulltext)
 * [Static Analysis at Scale: An Instagram Story (2019)](https://instagram-engineering.com/static-analysis-at-scale-an-instagram-story-8f498ab71a0c)
 * [A Few Billion Lines of Code Later: Using Static Analysis to Find Bugs in the Real World (2010)](https://cacm.acm.org/magazines/2010/2/69354-a-few-billion-lines-of-code-later/fulltext)
+
+## How can I integrate Dlint into XYZ?
+
+### TravisCI
+
+Include Dlint in your `.travis.yml` configuration file:
+
+```
+language: python
+install:
+    - python -m pip install dlint
+script:
+    - python -m flake8 --select=DUO /path/to/code
+```
+
+### CircleCI
+
+Include Dlint in your `.circleci/config.yml` configuration file:
+
+```
+version: 2
+jobs:
+    build:
+        docker:
+            - image: circleci/python
+        steps:
+            - checkout
+            - run: python -m pip install dlint
+            - run: python -m flake8 --select=DUO /path/to/code
+```
+
+### Gitlab
+
+Include Dlint in your `.gitlab-ci.yml` configuration file:
+
+```
+stages:
+    - test
+test:
+    image: python
+    before_script:
+        - python -m pip install dlint
+    script:
+        - python -m flake8 --select=DUO /path/to/code
+```
+
+### Phabricator
+
+Include Dlint in your [Arcanist](https://secure.phabricator.com/book/phabricator/article/arcanist/)
+linting process via the [`.arclint`](https://secure.phabricator.com/book/phabricator/article/arcanist_lint/)
+configuration file:
+```
+{
+    "linters": {
+        "sample": {
+            "type": "flake8"
+        }
+    }
+}
+```
+
+Dlint rules will automatically be run via `flake8` once it's installed, so the
+standard `flake8` configuration will work. You can also utilize more granular
+control over the linting process:
+
+```
+{
+    "linters": {
+        "sample": {
+            "type": "flake8"
+        },
+        "bin": ["python2.7", "python2"],
+        "flags": ["-m", "flake8", "--select", "DUO"]
+    }
+}
+```
