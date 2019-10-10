@@ -72,12 +72,7 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
             self.illegal_calls.append(node)
 
     def visit_Attribute(self, node):
-        # Avoid calling self.generic_visit(node) - attribute visiting starts
-        # at the highest attribute in the AST, which cooresponds to the most
-        # deeply nested attribute. I.e. if we have foo.bar.baz we'll always
-        # start at baz. This is beneficial because our module_path algorithm
-        # can tell on the highest attribute whether or not the full path should
-        # be marked, so testing deeper attributes accomplishes nothing.
+        self.generic_visit(node)
 
         module_path = tree.module_path_str(node.value)
 
