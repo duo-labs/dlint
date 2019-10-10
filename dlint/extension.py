@@ -69,16 +69,15 @@ class Flake8Extension(object):
         return dlint.linters.ALL + tuple(Flake8Extension.get_plugin_linter_classes())
 
     def run(self):
-        linters = Flake8Extension.get_linter_classes()
+        linter_instances = [l() for l in Flake8Extension.get_linter_classes()]
+        multi_visitor = dlint.multi.MultiNodeVisitor(linter_instances)
+        multi_visitor.visit(self.tree)
 
-        for linter in linters:
-            linter_instance = linter()
-            linter_instance.visit(self.tree)
-
+        for linter_instance in linter_instances:
             for result in linter_instance.get_results():
                 yield (
                     result.lineno,
                     result.col_offset,
                     result.message,
-                    linter
+                    type(linter_instance)
                 )

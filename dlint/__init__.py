@@ -6,6 +6,7 @@ from __future__ import (
 )
 
 from . import linters  # noqa F401
+from . import multi  # noqa F401
 from . import namespace  # noqa F401
 from . import test  # noqa F401
 from . import tree  # noqa F401

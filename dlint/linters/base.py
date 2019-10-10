@@ -31,9 +31,10 @@ class BaseLinter(ast.NodeVisitor):
 
     def visit(self, node):
         if not self.namespace:
-            # Assuming that 'visit' is always called the first time with 'node'
-            # as an ast.Module. If not, we should fail fast with a raised
-            # exception and investigate.
+            # In MultiNodeVisitor runs this will have already been set since
+            # the namespace remains the same for each linter. However, during
+            # testing or single-linter runs we still need to initialize the
+            # namespace for the linter.
             self.namespace = namespace.Namespace.from_module_node(node)
 
         super(BaseLinter, self).visit(node)
