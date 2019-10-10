@@ -139,3 +139,9 @@ $ flake8
 ```
 $ pytest --cov
 ```
+
+## Benchmarking
+
+```
+$ pytest --benchmark-py-file /path/to/python/file tests/test_benchmark/
+```
