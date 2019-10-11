@@ -5,15 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `DUO116`: rule for 'subprocess.run' ([#24](https://github.com/duo-labs/dlint/issues/24))
+- The '--print-dlint-linters' command-line flag to print all Dlint linters ([#26](https://github.com/duo-labs/dlint/issues/26))
+
 ### Changed
 - Visitor strategy to minimize node visits - ~25% speed up ([#28](https://github.com/duo-labs/dlint/issues/28))
 
 ### Fixed
 - False negative with nested imports in bad module attribute ([#30](https://github.com/duo-labs/dlint/issues/30))
-
-### Added
-- `DUO116`: rule for 'subprocess.run' ([#24](https://github.com/duo-labs/dlint/issues/24))
-- The '--print-dlint-linters' command-line flag to print all Dlint linters ([#26](https://github.com/duo-labs/dlint/issues/26))
 
 ## [0.8.0] - 2019-09-18
 ### Added
