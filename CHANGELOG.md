@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - `DUO116`: rule for 'subprocess.run' ([#24](https://github.com/duo-labs/dlint/issues/24))
 - The '--print-dlint-linters' command-line flag to print all Dlint linters ([#26](https://github.com/duo-labs/dlint/issues/26))
+- `DUO136`: lint for insecure xmlsec usage ([#27](https://github.com/duo-labs/dlint/issues/27))
 
 ### Changed
 - Visitor strategy to minimize node visits - ~25% speed up ([#28](https://github.com/duo-labs/dlint/issues/28))

@@ -38,6 +38,7 @@ from .bad_pickle_use import BadPickleUseLinter
 from .bad_pycrypto_use import BadPycryptoUseLinter
 from .bad_xml_use import BadXMLUseLinter
 from .bad_xmlrpc_use import BadXmlrpcUseLinter
+from .bad_xmlsec_module_attribute_use import BadXmlsecModuleAttributeUseLinter
 from .bad_yaml_use import BadYAMLUseLinter
 from .bad_zipfile_use import BadZipfileUseLinter
 from .inlinecallbacks_yield_statement import InlineCallbacksYieldStatementLinter
@@ -75,6 +76,7 @@ ALL = (
     BadPycryptoUseLinter,
     BadXMLUseLinter,
     BadXmlrpcUseLinter,
+    BadXmlsecModuleAttributeUseLinter,
     BadYAMLUseLinter,
     BadZipfileUseLinter,
     InlineCallbacksYieldStatementLinter,
