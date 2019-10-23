@@ -9,7 +9,6 @@ from __future__ import (
 
 import abc
 import ast
-import warnings
 
 from .. import base
 from ... import tree
@@ -29,23 +28,15 @@ class BadKwargUseLinter(base.BaseLinter, util.ABC):
 
             [
                 {
-                    "attribute_name": "name1", | "module_path": "mod1.mod2.name1",
+                    "module_path": "mod1.mod2.name1",
                     "kwarg_name": "kwarg1",
                     "predicate": <function>,
                 },
             ]
 
-        Which would represent 'name1(kwarg1=...)' where 'predicate' is a
-        function that takes the Call object and a kwarg name and returns
+        Which would represent 'mod1.mod2.name1(kwarg1=...)' where 'predicate'
+        is a function that takes the Call object and a kwarg name and returns
         True|False.
-
-        Either "attribute_name" or "module_path" can be specified, however
-        "attribute_name" is deprecated and will be removed in the future.
-        This is a temporary, backwards-compatible change to allow us to more
-        accurately specify an attribute from a specific module. E.g.
-        "subprocess.Popen(shell=True)" vs. just "Popen(shell=True)". In the
-        future we will remove the old behavior in favor of fully specified
-        module attributes.
         """
 
     def visit_Call(self, node):
@@ -54,24 +45,12 @@ class BadKwargUseLinter(base.BaseLinter, util.ABC):
         if not isinstance(node.func, (ast.Attribute, ast.Name)):
             return
 
-        def compare_kwarg_and_call(kwarg, call_node):
-            if "attribute_name" in kwarg:
-                warnings.warn(
-                    "'attribute_name' deprecated, please use fully specified 'module_path'",
-                    DeprecationWarning
-                )
-                return kwarg["attribute_name"] == tree.call_name(call_node)
-
-            module_path = tree.module_path_str(node.func)
-
-            return self.namespace.illegal_module_imported(
-                module_path,
-                kwarg["module_path"]
-            )
-
         bad_kwarg = any(
             (
-                compare_kwarg_and_call(kwarg, node)
+                self.namespace.illegal_module_imported(
+                    tree.module_path_str(node.func),
+                    kwarg["module_path"]
+                )
                 and kwarg["predicate"](node, kwarg["kwarg_name"])
             )
             for kwarg in self.kwargs

@@ -9,7 +9,6 @@ from __future__ import (
 
 import ast
 import sys
-import warnings
 
 
 def decorator_name(decorator):
@@ -161,19 +160,6 @@ def kwarg_str(call, kwarg_name, s):
         keyword.arg == kwarg_name
         and isinstance(keyword.value, ast.Str)
         and keyword.value.s == s
-        for keyword in call.keywords
-    )
-
-
-def kwarg_attribute(call, kwarg_name, attribute):
-    warnings.warn(
-        "'kwarg_attribute' deprecated, please use 'kwarg_module_path'",
-        DeprecationWarning
-    )
-    return any(
-        keyword.arg == kwarg_name
-        and isinstance(keyword.value, (ast.Attribute, ast.Name))
-        and module_path(keyword.value) == attribute
         for keyword in call.keywords
     )
 

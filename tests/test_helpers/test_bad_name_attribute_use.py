@@ -10,8 +10,6 @@ from __future__ import (
 import sys
 import unittest
 
-import pytest
-
 import dlint
 
 IS_PYTHON_3_5 = sys.version_info >= (3, 5)
@@ -31,7 +29,6 @@ def get_bad_name_attribute_use_implementation(illegal_name_attributes):
 
 class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_empty_code(self):
         python_node = self.get_ast_node(
             """
@@ -41,7 +38,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -71,7 +68,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_bad_name_attributes_basic(self):
         python_node = self.get_ast_node(
             """
@@ -86,7 +82,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -103,7 +99,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_bad_name_attributes_nested(self):
         python_node = self.get_ast_node(
             """
@@ -120,7 +115,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -137,7 +132,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     @unittest.skipUnless(IS_PYTHON_3_5, 'async statements introduced in Python 3.5')
     def test_bad_name_attributes_async_nested(self):
         python_node = self.get_ast_node(
@@ -155,7 +149,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -172,7 +166,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_bad_name_attributes_nested_overwrite(self):
         python_node = self.get_ast_node(
             """
@@ -191,7 +184,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -202,7 +195,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     @unittest.skipUnless(IS_PYTHON_3_5, 'async statements introduced in Python 3.5')
     def test_bad_name_attributes_async_nested_overwrite(self):
         python_node = self.get_ast_node(
@@ -222,7 +214,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -233,7 +225,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_bad_name_attributes_multiple_findings(self):
         python_node = self.get_ast_node(
             """
@@ -252,7 +243,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -274,7 +265,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_bad_name_attributes_multiple_attributes(self):
         python_node = self.get_ast_node(
             """
@@ -294,8 +284,8 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
-                    ['bar', 'class_method'],
+                    'bar.Baz',
+                    'bar.class_method',
                 ],
             }
         )
@@ -317,7 +307,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_bad_name_attributes_overwrite(self):
         python_node = self.get_ast_node(
             """
@@ -334,7 +323,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -345,7 +334,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_bad_name_attributes_no_module(self):
         python_node = self.get_ast_node(
             """
@@ -360,7 +348,7 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['Baz'],
+                    'bar.Baz',
                 ],
             }
         )
@@ -377,7 +365,6 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_bad_name_attributes_multiple_attribute_calls(self):
         python_node = self.get_ast_node(
             """
@@ -394,10 +381,10 @@ class TestBadNameAttributeUse(dlint.test.base.BaseTest):
         linter = get_bad_name_attribute_use_implementation(
             {
                 'foo': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
                 'qux': [
-                    ['bar', 'Baz'],
+                    'bar.Baz',
                 ],
             }
         )

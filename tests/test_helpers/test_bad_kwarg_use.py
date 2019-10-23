@@ -11,8 +11,6 @@ import unittest
 
 import dlint
 
-import pytest
-
 
 def get_bad_kwarg_use_implementation(kwargs):
     class Cls(dlint.linters.helpers.bad_kwarg_use.BadKwargUseLinter):
@@ -28,7 +26,6 @@ def get_bad_kwarg_use_implementation(kwargs):
 
 class TestBadKwargUse(dlint.test.base.BaseTest):
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_empty(self):
         python_node = self.get_ast_node(
             """
@@ -38,7 +35,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "foo",
+                    "module_path": "foo",
                     "kwarg_name": "bar",
                     "predicate": dlint.tree.kwarg_present,
                 },
@@ -51,7 +48,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_empty_kwargs(self):
         python_node = self.get_ast_node(
             """
@@ -67,7 +63,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_present_true(self):
         python_node = self.get_ast_node(
             """
@@ -80,7 +75,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_present,
                 },
@@ -99,7 +94,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_present_false(self):
         python_node = self.get_ast_node(
             """
@@ -112,7 +106,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_not_present,
                 },
@@ -125,7 +119,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_present_true_missing(self):
         python_node = self.get_ast_node(
             """
@@ -138,7 +131,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_present,
                 },
@@ -151,7 +144,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_present_false_missing(self):
         python_node = self.get_ast_node(
             """
@@ -164,7 +156,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_not_present,
                 },
@@ -183,7 +175,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_same_name_different_kwarg(self):
         python_node = self.get_ast_node(
             """
@@ -196,7 +187,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg1",
                     "predicate": dlint.tree.kwarg_present,
                 },
@@ -209,7 +200,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_different_name_same_kwarg(self):
         python_node = self.get_ast_node(
             """
@@ -222,7 +212,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar1",
+                    "module_path": "foo.bar1",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_present,
                 },
@@ -235,7 +225,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_multi(self):
         python_node = self.get_ast_node(
             """
@@ -249,12 +238,12 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg1",
                     "predicate": dlint.tree.kwarg_present,
                 },
                 {
-                    "attribute_name": "baz",
+                    "module_path": "foo.baz",
                     "kwarg_name": "kwarg2",
                     "predicate": dlint.tree.kwarg_present,
                 },
@@ -278,7 +267,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_nested_calls(self):
         python_node = self.get_ast_node(
             """
@@ -291,7 +279,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "baz",
+                    "module_path": "foo.Bar.baz",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_present,
                 },
@@ -310,7 +298,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_subscript_calls(self):
         python_node = self.get_ast_node(
             """
@@ -323,7 +310,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "baz",
+                    "module_path": "foo.Bar.baz",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_present,
                 },
@@ -342,7 +329,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_primitive_true(self):
         python_node = self.get_ast_node(
             """
@@ -355,7 +341,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_true,
                 },
@@ -374,7 +360,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_primitive_false(self):
         python_node = self.get_ast_node(
             """
@@ -387,7 +372,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_false,
                 },
@@ -406,7 +391,6 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @pytest.mark.filterwarnings('ignore::DeprecationWarning:dlint')
     def test_kwargs_primitive_none(self):
         python_node = self.get_ast_node(
             """
@@ -419,7 +403,7 @@ class TestBadKwargUse(dlint.test.base.BaseTest):
         linter = get_bad_kwarg_use_implementation(
             [
                 {
-                    "attribute_name": "bar",
+                    "module_path": "foo.bar",
                     "kwarg_name": "kwarg",
                     "predicate": dlint.tree.kwarg_none,
                 },

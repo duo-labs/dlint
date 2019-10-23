@@ -10,7 +10,6 @@ from __future__ import (
 import abc
 import ast
 import collections
-import warnings
 
 from .. import base
 from ... import tree
@@ -35,8 +34,8 @@ class BadNameAttributeUseLinter(base.BaseLinter, util.ABC):
 
             {
                 "object_attribute": [
-                    ["module_name1", "module_name2"],
-                    ["module_name3", "module_name4"],
+                    "parent_module_name1.child_module_name1",
+                    "parent_module_name2.child_module_name2",
                 ]
             }
         """
@@ -51,7 +50,7 @@ class BadNameAttributeUseLinter(base.BaseLinter, util.ABC):
                     and isinstance(inner_node.value, ast.Call)):
                 return
 
-            module_path = tree.module_path(inner_node.value.func)
+            module_path = tree.module_path_str(inner_node.value.func)
             targets.extend([
                 Assignment(
                     variable=target.id,
@@ -76,30 +75,17 @@ class BadNameAttributeUseLinter(base.BaseLinter, util.ABC):
             variable = inner_node.func.value.id
             attribute = inner_node.func.attr
 
-            def compare_target_and_attribute(inner_attribute, target):
-                if inner_attribute not in self.illegal_name_attributes:
-                    return False
-
-                if (self.illegal_name_attributes[inner_attribute]
-                        and isinstance(self.illegal_name_attributes[inner_attribute][0], list)):
-                    warnings.warn(
-                        "modules as a list is deprecated, please use fully specified module path",
-                        DeprecationWarning
-                    )
-                    return target.module_path in self.illegal_name_attributes[inner_attribute]
-
-                return any(
-                    self.namespace.illegal_module_imported(
-                        ".".join(target.module_path),
-                        illegal_name
-                    )
-                    for illegal_name in self.illegal_name_attributes[inner_attribute]
-                )
-
             illegal_calls = [
                 target for target in targets
                 if target.variable == variable
-                and compare_target_and_attribute(attribute, target)
+                and attribute in self.illegal_name_attributes
+                and any(
+                    self.namespace.illegal_module_imported(
+                        target.module_path,
+                        illegal_name
+                    )
+                    for illegal_name in self.illegal_name_attributes[attribute]
+                )
             ]
 
             try:
