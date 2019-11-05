@@ -52,18 +52,24 @@ useful features without re-inventing the wheel.
 Let's run a simple check:
 
 ```
-$ cat test.py
-#!/usr/bin/env python
-
+$ cat << EOF > test.py
 print("TEST1")
-
 exec('print("TEST2")')
+EOF
+```
+
+```
+$ python test.py
+TEST1
+TEST2
 ```
 
 ```
 $ python -m flake8 --select=DUO test.py
-test.py:5:1: DUO105 use of "exec" is insecure
+test.py:2:1: DUO105 use of "exec" is insecure
 ```
+
+*To learn more about why "exec" is insecure visit [`/docs/linters/DUO105.md`](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO105.md).*
 
 The `--select=DUO` flag tells `flake8` to only run Dlint lint rules.
 
