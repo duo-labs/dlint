@@ -7,6 +7,7 @@ from __future__ import (
     unicode_literals,
 )
 
+import ast
 import sys
 
 from . import base
@@ -27,12 +28,13 @@ class BadInputUseLinter(base.BaseLinter):
 
         super(BadInputUseLinter, self).__init__(*args, **kwargs)
 
-    def visit_Name(self, node):
+    def visit_Call(self, node):
         is_python_2 = sys.version_info < (3, 0)
 
         if (is_python_2
                 and self.unsafe_input_import
-                and node.id == 'input'):
+                and isinstance(node.func, ast.Name)
+                and node.func.id == 'input'):
             self.results.append(
                 base.Flake8Result(
                     lineno=node.lineno,

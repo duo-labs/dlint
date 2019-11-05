@@ -92,6 +92,21 @@ class TestBadInputUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_bad_input_variable_usage(self):
+        python_node = self.get_ast_node(
+            """
+            input = 1
+            """
+        )
+
+        linter = dlint.linters.BadInputUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = []
+
+        assert result == expected
+
 
 if __name__ == "__main__":
     unittest.main()
