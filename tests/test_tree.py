@@ -7,7 +7,6 @@ from __future__ import (
     unicode_literals,
 )
 
-import ast
 import unittest
 
 import pytest
@@ -22,12 +21,6 @@ class TestTree(unittest.TestCase):
 
         with pytest.raises(TypeError):
             dlint.tree.decorator_name(unknown_type)
-
-    def test_call_name_unknown_type(self):
-        unknown_type = ast.Call(func=None)
-
-        with pytest.raises(TypeError):
-            dlint.tree.call_name(unknown_type)
 
 
 if __name__ == "__main__":

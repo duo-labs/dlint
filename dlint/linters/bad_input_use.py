@@ -11,7 +11,6 @@ import ast
 import sys
 
 from . import base
-from .. import tree
 
 
 class BadInputUseLinter(base.BaseLinter):
@@ -35,7 +34,7 @@ class BadInputUseLinter(base.BaseLinter):
         if (is_python_2
                 and self.unsafe_input_import
                 and isinstance(node.func, ast.Name)
-                and tree.call_name(node) == 'input'):
+                and node.func.id == 'input'):
             self.results.append(
                 base.Flake8Result(
                     lineno=node.lineno,

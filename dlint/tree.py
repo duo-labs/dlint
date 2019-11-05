@@ -29,17 +29,6 @@ def decorator_name(decorator):
         raise TypeError('expected type ast.Attribute, ast.Name, or ast.Call, received {}'.format(type(decorator)))
 
 
-def call_name(call):
-    if isinstance(call.func, ast.Attribute):
-        # E.g. cls.func_call(argument)
-        return call.func.attr
-    elif isinstance(call.func, ast.Name):
-        # E.g. func_call(argument)
-        return call.func.id
-    else:
-        raise TypeError('expected type ast.Attribute or ast.Name, received {}'.format(type(call.func)))
-
-
 def function_has_inlinecallbacks_decorator(function):
     return any(
         decorator_name(decorator) == 'inlineCallbacks'
