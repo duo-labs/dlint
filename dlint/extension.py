@@ -30,7 +30,7 @@ class Flake8Extension(object):
             '--print-dlint-linters',
             action='store_true',
             help='Print Dlint linter information.',
-            parse_from_config=True
+            parse_from_config=False
         )
 
     @classmethod
