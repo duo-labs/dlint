@@ -9,8 +9,8 @@ from __future__ import (
 
 import ast
 
-from . import base
-from .. import tree
+from .. import base
+from ... import tree
 
 
 class ReturnValueInInlineCallbacksLinter(base.BaseLinter):

@@ -41,9 +41,10 @@ from .bad_xmlrpc_use import BadXmlrpcUseLinter
 from .bad_xmlsec_module_attribute_use import BadXmlsecModuleAttributeUseLinter
 from .bad_yaml_use import BadYAMLUseLinter
 from .bad_zipfile_use import BadZipfileUseLinter
-from .inlinecallbacks_yield_statement import InlineCallbacksYieldStatementLinter
-from .returnvalue_in_inlinecallbacks import ReturnValueInInlineCallbacksLinter
-from .yield_return_statement import YieldReturnStatementLinter
+
+from .twisted.inlinecallbacks_yield_statement import InlineCallbacksYieldStatementLinter
+from .twisted.returnvalue_in_inlinecallbacks import ReturnValueInInlineCallbacksLinter
+from .twisted.yield_return_statement import YieldReturnStatementLinter
 
 ALL = (
     BadCommandsUseLinter,

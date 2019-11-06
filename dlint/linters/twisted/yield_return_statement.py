@@ -10,8 +10,8 @@ from __future__ import (
 import ast
 import sys
 
-from . import base
-from .. import tree
+from .. import base
+from ... import tree
 
 
 class YieldReturnStatementLinter(base.BaseLinter):
