@@ -50,34 +50,30 @@ class Namespace(object):
 
     def illegal_module_imported(self, module_path, illegal_module_path):
         modules = module_path.split('.')
+        illegal_modules = illegal_module_path.split('.')
 
-        # 'm1.m2.m3.m4' -> ['m1', 'm1.m2', 'm1.m2.m3', 'm1.m2.m3.m4']
-        nested_module_imports = [
-            '.'.join(modules[:i + 1])
-            for i in range(len(modules))
-        ]
-        nested_module_imported = any(
-            (
-                alias.name == nested_module_import
-                and module_path == illegal_module_path
-            )
-            for imp in self.imports
-            for alias in imp.names
-            for nested_module_import in nested_module_imports
-        )
-        if nested_module_imported:
-            return True
+        def lstartswith(l1, l2):
+            if len(l2) > len(l1):
+                return False
+            return l1[:len(l2)] == l2
 
-        nested_module_from_imported = any(
-            (
-                alias.name == modules[0]
-                and (imp.module + '.' + module_path) == illegal_module_path
-            )
-            for imp in self.from_imports
-            for alias in imp.names
-            if imp.module is not None  # Relative import, e.g. 'from .'
-        )
-        if nested_module_from_imported:
-            return True
+        module_imported = False
+        canonicalized_modules = modules
 
-        return False
+        for imp in self.imports:
+            for alias in imp.names:
+                if lstartswith(illegal_modules, alias.name.split('.')):
+                    module_imported = True
+                if modules[0] == alias.asname:
+                    canonicalized_modules = alias.name.split('.') + modules[1:]
+
+        for imp in self.from_imports:
+            if not imp.module:
+                continue  # Relative import, e.g. 'from .'
+            for alias in imp.names:
+                if lstartswith(illegal_modules, imp.module.split('.') + [alias.name]):
+                    module_imported = True
+                if modules[0] in [alias.name, alias.asname]:
+                    canonicalized_modules = imp.module.split('.') + [alias.name] + modules[1:]
+
+        return module_imported and (canonicalized_modules == illegal_modules)
