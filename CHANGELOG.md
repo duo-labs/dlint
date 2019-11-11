@@ -10,12 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.9.1] - 2019-11-06
 ### Fixed
-- False positive with 'input' as variable name ([#31](https://github.com/duo-labs/dlint/issues/31))
+- False positive with `input` as variable name ([#31](https://github.com/duo-labs/dlint/issues/31))
 
 ## [0.9.0] - 2019-10-13
 ### Added
-- `DUO116`: rule for 'subprocess.run' ([#24](https://github.com/duo-labs/dlint/issues/24))
-- The '--print-dlint-linters' command-line flag to print all Dlint linters ([#26](https://github.com/duo-labs/dlint/issues/26))
+- `DUO116`: rule for `subprocess.run` ([#24](https://github.com/duo-labs/dlint/issues/24))
+- The `--print-dlint-linters` command-line flag to print all Dlint linters ([#26](https://github.com/duo-labs/dlint/issues/26))
 - `DUO136`: lint for insecure xmlsec usage ([#27](https://github.com/duo-labs/dlint/issues/27))
 
 ### Changed
@@ -25,8 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - False negative with nested imports in bad module attribute ([#30](https://github.com/duo-labs/dlint/issues/30))
 
 ### Removed
-- `dlint.linters.helpers.bad_kwarg_use`: use of 'attribute_name' in favor of fully specified 'module_path' ([#19](https://github.com/duo-labs/dlint/issues/19))
-- `dlint.tree`: use of 'kwarg_attribute' in favor of 'kwarg_module_path' ([#21](https://github.com/duo-labs/dlint/issues/21))
+- `dlint.linters.helpers.bad_kwarg_use`: use of `attribute_name` in favor of fully specified `module_path` ([#19](https://github.com/duo-labs/dlint/issues/19))
+- `dlint.tree`: use of `kwarg_attribute` in favor of `kwarg_module_path` ([#21](https://github.com/duo-labs/dlint/issues/21))
 - `dlint.linters.helpers.bad_name_attribute_use`: use of attribute list in favor of fully specified module path ([#20](https://github.com/duo-labs/dlint/issues/20))
 
 ## [0.8.0] - 2019-09-18
@@ -36,15 +36,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DUO135`: lint for insecure defusedxml usage ([#5](https://github.com/duo-labs/dlint/issues/5))
 
 ### Deprecated
-- `dlint.linters.helpers.bad_kwarg_use`: use of 'attribute_name' in favor of fully specified 'module_path' ([#19](https://github.com/duo-labs/dlint/issues/19))
-- `dlint.tree`: use of 'kwarg_attribute' in favor of 'kwarg_module_path' ([#21](https://github.com/duo-labs/dlint/issues/21))
+- `dlint.linters.helpers.bad_kwarg_use`: use of `attribute_name` in favor of fully specified `module_path` ([#19](https://github.com/duo-labs/dlint/issues/19))
+- `dlint.tree`: use of `kwarg_attribute` in favor of `kwarg_module_path` ([#21](https://github.com/duo-labs/dlint/issues/21))
 - `dlint.linters.helpers.bad_name_attribute_use`: use of attribute list in favor of fully specified module path ([#20](https://github.com/duo-labs/dlint/issues/20))
 
 ### Fixed
 - False negative when deep imports are not fully specified in bad module attribute ([#1](https://github.com/duo-labs/dlint/issues/1))
-- False negative - consider 'async' functions in bad name attribute ([7bd249e](https://github.com/duo-labs/dlint/commit/7bd249e80a91f7c38f2c1f05045a826e0bef3246))
-- False negative in various import scenarios when using 'attribute_name' in bad kwarg ([#19](https://github.com/duo-labs/dlint/issues/19))
-- False negative in various import scenarios when using 'kwarg_attribute' in bad kwarg ([#21](https://github.com/duo-labs/dlint/issues/21))
+- False negative - consider `async` functions in bad name attribute ([7bd249e](https://github.com/duo-labs/dlint/commit/7bd249e80a91f7c38f2c1f05045a826e0bef3246))
+- False negative in various import scenarios when using `attribute_name` in bad kwarg ([#19](https://github.com/duo-labs/dlint/issues/19))
+- False negative in various import scenarios when using `kwarg_attribute` in bad kwarg ([#21](https://github.com/duo-labs/dlint/issues/21))
 - False negative in various import scenarios when using attribute list in bad name attribute ([#20](https://github.com/duo-labs/dlint/issues/20))
 
 ## [0.7.0] - 2019-08-24
