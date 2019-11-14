@@ -10,6 +10,8 @@ from __future__ import (
 import ast
 import copy
 
+from . import util
+
 
 class Namespace(object):
     def __init__(self, imports, from_imports):
@@ -52,17 +54,12 @@ class Namespace(object):
         modules = module_path.split('.') if module_path else []
         illegal_modules = illegal_module_path.split('.')
 
-        def lstartswith(l1, l2):
-            if len(l2) > len(l1):
-                return False
-            return l1[:len(l2)] == l2
-
         module_imported = False
         canonicalized_modules = modules
 
         for imp in self.imports:
             for alias in imp.names:
-                if lstartswith(illegal_modules, alias.name.split('.')):
+                if util.lstartswith(illegal_modules, alias.name.split('.')):
                     module_imported = True
                 if modules and modules[0] == alias.asname:
                     # 'import foo.bar as baz', 'baz.qux' -> 'foo.bar.baz'
@@ -75,12 +72,12 @@ class Namespace(object):
             imp_modules = imp.module.split('.')
 
             for alias in imp.names:
-                if lstartswith(illegal_modules, imp_modules + [alias.name]):
+                if util.lstartswith(illegal_modules, imp_modules + [alias.name]):
                     module_imported = True
                 if modules and modules[0] in [alias.name, alias.asname]:
                     # 'from foo.bar import baz as qux', 'qux.quine' -> 'foo.bar.baz.quine'
                     canonicalized_modules = imp_modules + [alias.name] + modules[1:]
-                if (lstartswith(illegal_modules, imp_modules)
+                if (util.lstartswith(illegal_modules, imp_modules)
                         and illegal_modules[len(imp_modules):] == modules
                         and alias.name == '*'):
                     # 'from foo.bar import *', 'baz.qux' -> 'foo.bar.baz.qux'
