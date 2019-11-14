@@ -19,12 +19,6 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
     lint rules that block bad attributes within a module.
     """
 
-    def __init__(self, *args, **kwargs):
-        self.illegal_wildcard_imports = []
-        self.illegal_calls = []
-
-        super(BadModuleAttributeUseLinter, self).__init__(*args, **kwargs)
-
     @property
     @abc.abstractmethod
     def illegal_module_attributes(self):
@@ -39,36 +33,25 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
             }
         """
 
-    def get_results(self):
-        used_illegal_attributes = [
-            attributes
-            for module, attributes in self.illegal_module_attributes.items()
-            if module in self.illegal_wildcard_imports
-        ]
-
-        self.results.extend([
-            base.Flake8Result(
-                lineno=node.lineno,
-                col_offset=node.col_offset,
-                message=self._error_tmpl
-            )
-            for node in self.illegal_calls
-            if any(
-                node.id in attributes
-                for attributes in used_illegal_attributes
-            )
-        ])
-
-        return self.results
-
     def visit_Name(self, node):
-        illegal_call = any(
-            node.id in illegal_attributes
-            for illegal_attributes in self.illegal_module_attributes.values()
+        # Names have no module path by definition - i.e. they're a
+        # naked name in the namespace like 'Foo()' instead of 'bar.baz.Foo()'
+        name_module_path = ""
+
+        illegal_call_use = any(
+            node.id in attributes
+            and self.namespace.illegal_module_imported(name_module_path, illegal_module_path)
+            for illegal_module_path, attributes in self.illegal_module_attributes.items()
         )
 
-        if illegal_call:
-            self.illegal_calls.append(node)
+        if illegal_call_use:
+            self.results.append(
+                base.Flake8Result(
+                    lineno=node.lineno,
+                    col_offset=node.col_offset,
+                    message=self._error_tmpl
+                )
+            )
 
     def visit_Attribute(self, node):
         self.generic_visit(node)
@@ -91,13 +74,6 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
             )
 
     def visit_ImportFrom(self, node):
-        wildcard_import = any(
-            alias.name == '*'
-            for alias in node.names
-        )
-        if wildcard_import and node.module in self.illegal_module_attributes:
-            self.illegal_wildcard_imports.append(node.module)
-
         self.results.extend([
             base.Flake8Result(
                 lineno=node.lineno,

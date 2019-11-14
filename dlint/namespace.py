@@ -49,7 +49,7 @@ class Namespace(object):
         )
 
     def illegal_module_imported(self, module_path, illegal_module_path):
-        modules = module_path.split('.')
+        modules = module_path.split('.') if module_path else []
         illegal_modules = illegal_module_path.split('.')
 
         def lstartswith(l1, l2):
@@ -64,18 +64,27 @@ class Namespace(object):
             for alias in imp.names:
                 if lstartswith(illegal_modules, alias.name.split('.')):
                     module_imported = True
-                if modules[0] == alias.asname:
+                if modules and modules[0] == alias.asname:
                     # 'import foo.bar as baz', 'baz.qux' -> 'foo.bar.baz'
                     canonicalized_modules = alias.name.split('.') + modules[1:]
 
         for imp in self.from_imports:
             if not imp.module:
                 continue  # Relative import, e.g. 'from .'
+
+            imp_modules = imp.module.split('.')
+
             for alias in imp.names:
-                if lstartswith(illegal_modules, imp.module.split('.') + [alias.name]):
+                if lstartswith(illegal_modules, imp_modules + [alias.name]):
                     module_imported = True
-                if modules[0] in [alias.name, alias.asname]:
+                if modules and modules[0] in [alias.name, alias.asname]:
                     # 'from foo.bar import baz as qux', 'qux.quine' -> 'foo.bar.baz.quine'
-                    canonicalized_modules = imp.module.split('.') + [alias.name] + modules[1:]
+                    canonicalized_modules = imp_modules + [alias.name] + modules[1:]
+                if (lstartswith(illegal_modules, imp_modules)
+                        and illegal_modules[len(imp_modules):] == modules
+                        and alias.name == '*'):
+                    # 'from foo.bar import *', 'baz.qux' -> 'foo.bar.baz.qux'
+                    module_imported = True
+                    canonicalized_modules = imp_modules + modules
 
         return module_imported and (canonicalized_modules == illegal_modules)

@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - False negative with arbitrary depth from import alias in bad module attribute ([#32](https://github.com/duo-labs/dlint/issues/32))
+- False negative with arbitrary depth from import wildcard in bad module attribute ([#33](https://github.com/duo-labs/dlint/issues/33))
 
 ## [0.9.1] - 2019-11-06
 ### Fixed

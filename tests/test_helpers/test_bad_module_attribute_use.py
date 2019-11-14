@@ -577,6 +577,41 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
 
             assert result == expected
 
+    def test_module_attribute_arbitrary_from_import_wildcard_depth_usage_new(self):
+        python_strings = [
+            """
+            from m1 import *
+            m2.m3.m4.bad_attribute()
+            """,
+            """
+            from m1.m2 import *
+            m3.m4.bad_attribute()
+            """,
+            """
+            from m1.m2.m3 import *
+            m4.bad_attribute()
+            """,
+        ]
+
+        for python_string in python_strings:
+            python_node = self.get_ast_node(python_string)
+
+            linter = get_bad_module_attribute_use_implementation({
+                'm1.m2.m3.m4': ['bad_attribute'],
+            })
+            linter.visit(python_node)
+
+            result = linter.get_results()
+            expected = [
+                dlint.linters.base.Flake8Result(
+                    lineno=3,
+                    col_offset=0,
+                    message=linter._error_tmpl
+                )
+            ]
+
+            assert result == expected
+
     def test_module_attribute_usage_nested(self):
         python_node = self.get_ast_node(
             """
