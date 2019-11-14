@@ -65,6 +65,7 @@ class Namespace(object):
                 if lstartswith(illegal_modules, alias.name.split('.')):
                     module_imported = True
                 if modules[0] == alias.asname:
+                    # 'import foo.bar as baz', 'baz.qux' -> 'foo.bar.baz'
                     canonicalized_modules = alias.name.split('.') + modules[1:]
 
         for imp in self.from_imports:
@@ -74,6 +75,7 @@ class Namespace(object):
                 if lstartswith(illegal_modules, imp.module.split('.') + [alias.name]):
                     module_imported = True
                 if modules[0] in [alias.name, alias.asname]:
+                    # 'from foo.bar import baz as qux', 'qux.quine' -> 'foo.bar.baz.quine'
                     canonicalized_modules = imp.module.split('.') + [alias.name] + modules[1:]
 
         return module_imported and (canonicalized_modules == illegal_modules)
