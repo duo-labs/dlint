@@ -13,7 +13,7 @@ from . import tree  # noqa F401
 from . import util  # noqa F401
 
 __name__ = 'dlint'
-__version__ = '0.9.1'
+__version__ = '0.9.2'
 __description__ = (
     "Dlint is a tool for encouraging best coding practices "
     "and helping ensure we're writing secure Python code."
