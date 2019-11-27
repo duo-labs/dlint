@@ -59,6 +59,9 @@ the [`TarFile.extractall`](https://docs.python.org/3/library/tarfile.html#tarfil
 object method can often lead to security vulnerabilities. Dlint tracks variable
 names of instantiated objects and searches for insecure methods used by these
 specific objects.
+* Dlint can identify insecurities arising from the use of wildcard imports. For
+example, `from os import *`, which results in insecure use of the `os` module,
+such as a `system` call.
 * Dlint is built upon the ubiquitous [Flake8](https://flake8.pycqa.org/en/latest/)
 project so it's easy to use, provides a fully-featured interface, and is backed
 by the [Python Code Quality Authority](https://github.com/PyCQA). This means
