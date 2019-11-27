@@ -164,3 +164,15 @@ control over the linting process:
     }
 }
 ```
+
+## How can I output results in JSON?
+
+Use the [`flake8-json`] plugin:
+
+```
+$ python -m pip install flake8-json
+```
+
+```
+$ python -m flake8 --format=json --select=DUO ...
+```
