@@ -19,6 +19,7 @@ from .bad_eval_use import BadEvalUseLinter
 from .bad_exec_use import BadExecUseLinter
 from .bad_hashlib_use import BadHashlibUseLinter
 from .bad_input_use import BadInputUseLinter
+from .bad_itsdangerous_kwarg_use import BadItsDangerousKwargUseLinter
 from .bad_marshal_use import BadMarshalUseLinter
 from .bad_onelogin_kwarg_use import BadOneLoginKwargUseLinter
 from .bad_onelogin_module_attribute_use import BadOneLoginModuleAttributeUseLinter
@@ -58,6 +59,7 @@ ALL = (
     BadExecUseLinter,
     BadHashlibUseLinter,
     BadInputUseLinter,
+    BadItsDangerousKwargUseLinter,
     BadMarshalUseLinter,
     BadOneLoginKwargUseLinter,
     BadOneLoginModuleAttributeUseLinter,

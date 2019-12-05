@@ -165,6 +165,19 @@ def kwarg_module_path(call, kwarg_name, illegal_module_path, namespace):
     )
 
 
+def kwarg_module_path_call(call, kwarg_name, illegal_module_path, namespace):
+    return any(
+        keyword.arg == kwarg_name
+        and isinstance(keyword.value, ast.Call)
+        and isinstance(keyword.value.func, (ast.Attribute, ast.Name))
+        and namespace.illegal_module_imported(
+            module_path_str(keyword.value.func),
+            illegal_module_path
+        )
+        for keyword in call.keywords
+    )
+
+
 def kwarg_any(kwarg_functions):
     """Resolve kwarg predicates with short-circuit evaluation. This optimization
     technique means we do not have to evaluate every predicate if one is already

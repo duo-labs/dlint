@@ -40,6 +40,7 @@ Dlint uses a simple, folder-based hierarchy written in [Markdown](https://en.wik
 * [`DUO134` `BadCryptographyModuleAttributeUseLinter` insecure "cryptography" attribute use](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO134.md)
 * [`DUO135` `BadDefusedxmlUseLinter` enable all "forbid_*" defenses when using "defusedxml" parsing](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO135.md)
 * [`DUO136` `BadXmlsecModuleAttributeUseLinter` insecure "xmlsec" attribute use](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO136.md)
+* [`DUO137` `BadItsDangerousKwargUseLinter` insecure "itsdangerous" use allowing empty signing](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO137.md)
 
 # FAQs
 
