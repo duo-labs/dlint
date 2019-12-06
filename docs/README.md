@@ -92,6 +92,7 @@ comprehensive analysis and ensure you're coding with confidence.
 * [Scaling Static Analyses at Facebook (2019)](https://cacm.acm.org/magazines/2019/8/238344-scaling-static-analyses-at-facebook/fulltext)
 * [Static Analysis at Scale: An Instagram Story (2019)](https://instagram-engineering.com/static-analysis-at-scale-an-instagram-story-8f498ab71a0c)
 * [A Few Billion Lines of Code Later: Using Static Analysis to Find Bugs in the Real World (2010)](https://cacm.acm.org/magazines/2010/2/69354-a-few-billion-lines-of-code-later/fulltext)
+* [How to Build Static Checking Systems Using Orders of Magnitude Less Code (2016)](https://web.stanford.edu/~mlfbrown/paper.pdf)
 
 ## How can I integrate Dlint into XYZ?
 
