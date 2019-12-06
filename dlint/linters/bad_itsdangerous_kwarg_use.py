@@ -44,12 +44,7 @@ class BadItsDangerousKwargUseLinter(bad_kwarg_use.BadKwargUseLinter):
             ])
 
         def none_string_predicate(call, kwarg_name):
-            return functools.partial(
-                tree.kwarg_str,
-                call,
-                kwarg_name,
-                "none"
-            ),
+            return tree.kwarg_str(call, kwarg_name, "none")
 
         return [
             {
