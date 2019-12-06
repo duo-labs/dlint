@@ -96,45 +96,45 @@ class TestBadItsDangerousKwargUse(dlint.test.base.BaseTest):
     def test_false_positive_in_the_wild(self):
         python_node = self.get_ast_node(
             """
-from flask.ext.restful import fields, url_for
-from itsdangerous import JSONWebSignatureSerializer as Serializer
-from itsdangerous import BadSignature
-from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
-class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(256), unique=True)
-    password_hash = db.Column(db.String(256))
+            from flask.ext.restful import fields, url_for
+            from itsdangerous import JSONWebSignatureSerializer as Serializer
+            from itsdangerous import BadSignature
+            from werkzeug.security import generate_password_hash, check_password_hash
+            from . import db
+            class User(db.Model):
+                __tablename__ = 'users'
+                id = db.Column(db.Integer, primary_key=True)
+                email = db.Column(db.String(256), unique=True)
+                password_hash = db.Column(db.String(256))
 
-    def generate_api_token(self):
-        serializer = Serializer(app.config['SECRET_KEY'])
-        return serializer.dumps({'id': self.id})
+                def generate_api_token(self):
+                    serializer = Serializer(app.config['SECRET_KEY'])
+                    return serializer.dumps({'id': self.id})
 
-    @staticmethod
-    def verify_api_token(token):
-        serializer = Serializer(app.config['SECRET_KEY'])
-        try:
-            data = serializer.loads(token)
-        except BadSignature:
-            # invalid token
-            return None
-        return User.query.get(data['id'])
+                @staticmethod
+                def verify_api_token(token):
+                    serializer = Serializer(app.config['SECRET_KEY'])
+                    try:
+                        data = serializer.loads(token)
+                    except BadSignature:
+                        # invalid token
+                        return None
+                    return User.query.get(data['id'])
 
-    @property
-    def password(self):
-        raise AttributeError('password is not readable')
+                @property
+                def password(self):
+                    raise AttributeError('password is not readable')
 
-    @password.setter
-    def password(self, password):
-        self.password_hash = generate_password_hash(password)
+                @password.setter
+                def password(self, password):
+                    self.password_hash = generate_password_hash(password)
 
-    def verify_password(self, password):
-        return check_password_hash(self.password_hash, password)
+                def verify_password(self, password):
+                    return check_password_hash(self.password_hash, password)
 
-    def __repr__(self):
-        return '<User %r>' % self.email
-"""
+                def __repr__(self):
+                    return '<User %r>' % self.email
+            """
         )
         linter = dlint.linters.BadItsDangerousKwargUseLinter()
         linter.visit(python_node)
@@ -142,6 +142,7 @@ class User(db.Model):
         result = linter.get_results()
         expected = []
         assert result == expected
+
 
 if __name__ == "__main__":
     unittest.main()
