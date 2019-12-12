@@ -126,7 +126,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=2,
+                lineno=6,
                 col_offset=0,
                 message=linter._error_tmpl
             )
@@ -151,7 +151,7 @@ class TestBadModuleAttributeUse(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=2,
+                lineno=6,
                 col_offset=0,
                 message=linter._error_tmpl
             )

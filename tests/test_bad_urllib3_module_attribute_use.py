@@ -50,7 +50,7 @@ class TestBadUrllib3ModuleAttributeUse(dlint.test.base.BaseTest):
         result = linter.get_results()
         expected = [
             dlint.linters.base.Flake8Result(
-                lineno=2,
+                lineno=3,
                 col_offset=0,
                 message=dlint.linters.BadUrllib3ModuleAttributeUseLinter._error_tmpl
             ),

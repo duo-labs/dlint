@@ -34,13 +34,25 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
         """
 
     def visit_Name(self, node):
-        # Names have no module path by definition - i.e. they're a
-        # naked name in the namespace like 'Foo()' instead of 'bar.baz.Foo()'
-        name_module_path = ""
+        def illegal_import_with_name_resolution(name, attributes, illegal_module_path):
+            if name in attributes:
+                resolved_name = name
+            else:
+                resolved_name = self.namespace.asname_to_name(name)
+                if resolved_name not in attributes:
+                    return False
+
+            return self.namespace.illegal_module_imported(
+                resolved_name,
+                illegal_module_path + "." + resolved_name
+            )
 
         illegal_call_use = any(
-            node.id in attributes
-            and self.namespace.illegal_module_imported(name_module_path, illegal_module_path)
+            illegal_import_with_name_resolution(
+                node.id,
+                attributes,
+                illegal_module_path
+            )
             for illegal_module_path, attributes in self.illegal_module_attributes.items()
         )
 
@@ -72,16 +84,3 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
                     message=self._error_tmpl
                 )
             )
-
-    def visit_ImportFrom(self, node):
-        self.results.extend([
-            base.Flake8Result(
-                lineno=node.lineno,
-                col_offset=node.col_offset,
-                message=self._error_tmpl
-            )
-            for module, attributes in self.illegal_module_attributes.items()
-            if node.module == module and any(
-                alias.name in attributes for alias in node.names
-            )
-        ])
