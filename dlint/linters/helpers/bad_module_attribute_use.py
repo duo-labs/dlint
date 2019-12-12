@@ -33,6 +33,22 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
             }
         """
 
+    def __init__(self, *args, **kwargs):
+        self.bad_nodes = []
+
+        super(BadModuleAttributeUseLinter, self).__init__(*args, **kwargs)
+
+    def get_results(self):
+
+        return [
+            base.Flake8Result(
+                lineno=node.lineno,
+                col_offset=node.col_offset,
+                message=self._error_tmpl
+            )
+            for node in self.bad_nodes
+        ]
+
     def visit_Name(self, node):
         def illegal_import_with_name_resolution(name, attributes, illegal_module_path):
             if name in attributes:
@@ -57,13 +73,7 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
         )
 
         if illegal_call_use:
-            self.results.append(
-                base.Flake8Result(
-                    lineno=node.lineno,
-                    col_offset=node.col_offset,
-                    message=self._error_tmpl
-                )
-            )
+            self.bad_nodes.append(node)
 
     def visit_Attribute(self, node):
         self.generic_visit(node)
@@ -77,10 +87,4 @@ class BadModuleAttributeUseLinter(base.BaseLinter, util.ABC):
         )
 
         if illegal_attribute_use:
-            self.results.append(
-                base.Flake8Result(
-                    lineno=node.lineno,
-                    col_offset=node.col_offset,
-                    message=self._error_tmpl
-                )
-            )
+            self.bad_nodes.append(node)
