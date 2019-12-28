@@ -26,6 +26,7 @@ from .bad_onelogin_module_attribute_use import BadOneLoginModuleAttributeUseLint
 from .bad_os_use import BadOSUseLinter
 from .bad_popen2_use import BadPopen2UseLinter
 from .bad_random_generator_use import BadRandomGeneratorUseLinter
+from .bad_re_catastrophic_use import BadReCatastrophicUseLinter
 from .bad_requests_use import BadRequestsUseLinter
 from .bad_shelve_use import BadShelveUseLinter
 from .bad_subprocess_use import BadSubprocessUseLinter
@@ -66,6 +67,7 @@ ALL = (
     BadOSUseLinter,
     BadPopen2UseLinter,
     BadRandomGeneratorUseLinter,
+    BadReCatastrophicUseLinter,
     BadRequestsUseLinter,
     BadShelveUseLinter,
     BadSSLModuleAttributeUseLinter,
