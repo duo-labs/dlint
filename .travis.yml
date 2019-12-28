@@ -6,6 +6,11 @@ python:
     - 3.6
     - 3.7
     - 3.8-dev
+    - nightly
+jobs:
+    fast_finish: true
+    allow_failures:
+        - python: nightly
 install:
     - pip install -r requirements.txt
     - pip install -r requirements-dev.txt
