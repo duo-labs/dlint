@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - `DUO137`: lint for insecure itsdangerous kwarg usage ([#36](https://github.com/duo-labs/dlint/issues/36))
-- `DUO138`: lint for regular expression catastrophic backtracking in re module ([#41](https://github.com/duo-labs/dlint/issues/41))
 
 ### Fixed
 - False positive for `DUO137` when kwarg missing ([#39](https://github.com/duo-labs/dlint/issues/39))
