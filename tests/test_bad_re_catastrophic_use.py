@@ -8,9 +8,12 @@ from __future__ import (
 )
 
 import itertools
+import sys
 import unittest
 
 import dlint
+
+IS_PYTHON_3_7 = sys.version_info >= (3, 7)
 
 
 class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
@@ -262,6 +265,7 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    @unittest.skipIf(IS_PYTHON_3_7, 'sre_parse optimization nullifies this check in Python 3.7')
     def test_bad_re_catastrophic_nested_quantifier_alternation_literal_overlap(self):
         python_node = self.get_ast_node(
             """
@@ -428,6 +432,7 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    @unittest.skipIf(IS_PYTHON_3_7, 'sre_parse optimization nullifies this check in Python 3.7')
     def test_bad_re_catastrophic_nested_quantifier_alternation_range_overlap(self):
         python_node = self.get_ast_node(
             """
