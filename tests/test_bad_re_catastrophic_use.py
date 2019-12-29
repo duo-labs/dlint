@@ -265,7 +265,6 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @unittest.skipIf(IS_PYTHON_3_7, 'sre_parse optimization nullifies this check in Python 3.7')
     def test_bad_re_catastrophic_nested_quantifier_alternation_literal_overlap(self):
         python_node = self.get_ast_node(
             """
@@ -279,7 +278,9 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
         linter.visit(python_node)
 
         result = linter.get_results()
-        expected = [
+
+        # sre_parse optimization nullifies this alternation check in Python 3.7+
+        expected = [] if IS_PYTHON_3_7 else [
             dlint.linters.base.Flake8Result(
                 lineno=4,
                 col_offset=0,
@@ -432,7 +433,6 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
-    @unittest.skipIf(IS_PYTHON_3_7, 'sre_parse optimization nullifies this check in Python 3.7')
     def test_bad_re_catastrophic_nested_quantifier_alternation_range_overlap(self):
         python_node = self.get_ast_node(
             """
@@ -446,7 +446,9 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
         linter.visit(python_node)
 
         result = linter.get_results()
-        expected = [
+
+        # sre_parse optimization nullifies this alternation check in Python 3.7+
+        expected = [] if IS_PYTHON_3_7 else [
             dlint.linters.base.Flake8Result(
                 lineno=4,
                 col_offset=0,
