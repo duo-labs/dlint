@@ -475,6 +475,23 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_bad_re_catastrophic_groupref_detection(self):
+        python_node = self.get_ast_node(
+            """
+            import re
+
+            re.search('(?P<name>[foo])(?(name)yes|no)')
+            """
+        )
+
+        linter = dlint.linters.BadReCatastrophicUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = []
+
+        assert result == expected
+
 
 if __name__ == "__main__":
     unittest.main()
