@@ -1,7 +1,7 @@
 # Contributing
 
 `Dlint` welcomes contributions from anyone. If you have an idea for a linter
-but don't know how to implement one please [create a new issue](https://github.com/duo-labs/dlint/issues).
+but don't know how to implement one please [create a new issue](https://github.com/dlint-py/dlint/issues).
 With `dlint` we can find security bugs, encourage best practices, and eliminate
 anti-patterns across the Python ecosystem.
 
@@ -9,7 +9,7 @@ anti-patterns across the Python ecosystem.
 module and the [`flake8` plugin system](http://flake8.pycqa.org/en/latest/user/using-plugins.html).
 It may be helpful to review those systems before beginning `dlint` development,
 but `dlint` aims to be easily extendable without requiring a lot of background
-knowledge. **Further, please check out our brief section on [developing](https://github.com/duo-labs/dlint#developing)
+knowledge. **Further, please check out our brief section on [developing](https://github.com/dlint-py/dlint#developing)
 `dlint` before making changes.**
 
 # New Linters
@@ -26,12 +26,12 @@ When adding new linters:
 * Ensure new code adheres to the style guide/linting process.
 * Add new rule information to `CHANGELOG.md` under `Unreleased` section, `Added` sub-section.
 
-From here, please create a [pull request](https://github.com/duo-labs/dlint/pulls)
+From here, please create a [pull request](https://github.com/dlint-py/dlint/pulls)
 with your changes and wait for a review.
 
 # Fixing/Reporting Bugs
 
-When fixing or reporting bugs in `dlint` please [create a new issue](https://github.com/duo-labs/dlint/issues)
+When fixing or reporting bugs in `dlint` please [create a new issue](https://github.com/dlint-py/dlint/issues)
 first. This issue should include a snippet of code for reproducing the bug.
 
 E.g.
@@ -49,5 +49,5 @@ send_result(widget)
 *Please update `dlint` to catch this. Thanks!*
 
 After reporting the issue, if you'd like to help fix it, please create a
-[pull request](https://github.com/duo-labs/dlint/pulls) with the
+[pull request](https://github.com/dlint-py/dlint/pulls) with the
 fix applied and wait for a review.

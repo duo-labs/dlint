@@ -19,5 +19,5 @@ __description__ = (
     "Dlint is a tool for encouraging best coding practices "
     "and helping ensure Python code is secure."
 )
-__url__ = 'https://github.com/duo-labs/dlint'
+__url__ = 'https://github.com/dlint-py/dlint'
 __license__ = 'BSD-3-Clause'

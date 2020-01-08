@@ -17,7 +17,7 @@ Dlint is a tool for encouraging best coding practices and helping ensure Python 
 > from and enjoy using it.
 > - [Lessons from Building Static Analysis Tools at Google](https://cacm.acm.org/magazines/2018/4/226371-lessons-from-building-static-analysis-tools-at-google/fulltext)
 
-For documentation and a list of rules see [docs](https://github.com/duo-labs/dlint/tree/master/docs).
+For documentation and a list of rules see [docs](https://github.com/dlint-py/dlint/tree/master/docs).
 
 # Installing
 
@@ -67,7 +67,7 @@ $ python -m flake8 --select=DUO test.py
 test.py:2:1: DUO105 use of "exec" is insecure
 ```
 
-*To learn more about why "exec" is insecure visit [`/docs/linters/DUO105.md`](https://github.com/duo-labs/dlint/blob/master/docs/linters/DUO105.md).*
+*To learn more about why "exec" is insecure visit [`/docs/linters/DUO105.md`](https://github.com/dlint-py/dlint/blob/master/docs/linters/DUO105.md).*
 
 The `--select=DUO` flag tells `flake8` to only run Dlint lint rules.
 
@@ -102,7 +102,7 @@ points for common editors:
 
 Dlint can easily be integrated into CI pipelines, or anything really.
 
-For more information and examples see ['How can I integrate Dlint into XYZ?'](https://github.com/duo-labs/dlint/tree/master/docs#how-can-i-integrate-dlint-into-xyz).
+For more information and examples see ['How can I integrate Dlint into XYZ?'](https://github.com/dlint-py/dlint/tree/master/docs#how-can-i-integrate-dlint-into-xyz).
 
 # Custom Plugins
 
@@ -116,7 +116,7 @@ To make a Dlint custom plugin use the following conventions:
   * If for some reason you'd like to avoid this, then you **must** implement
 	the `get_results` function appropriately and inherit from `ast.NodeVisitor`.
 
-See an [example plugin](https://github.com/duo-labs/dlint-plugin-example) for further details.
+See an [example plugin](https://github.com/dlint-py/dlint-plugin-example) for further details.
 
 # Developing
 
