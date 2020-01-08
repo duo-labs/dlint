@@ -23,7 +23,6 @@ jobs:
         flake8
         pytest --cov
     - name: Upload coverage information
+      uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        coveralls
