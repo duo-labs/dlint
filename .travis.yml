@@ -18,3 +18,5 @@ install:
 script:
     - flake8
     - pytest --cov
+after_success:
+    - coveralls

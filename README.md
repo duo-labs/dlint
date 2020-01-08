@@ -1,8 +1,7 @@
-[![Duo Labs](labs.jpg)](https://duo.com/labs/)
-
 # Dlint
 
-[![Build Status](https://travis-ci.org/duo-labs/dlint.svg?branch=master)](https://travis-ci.org/duo-labs/dlint)
+[![Build Status](https://travis-ci.org/dlint-py/dlint.svg?branch=master)](https://travis-ci.org/dlint-py/dlint)
+[![Coverage Status](https://coveralls.io/repos/github/dlint-py/dlint/badge.svg?branch=master)](https://coveralls.io/github/dlint-py/dlint?branch=master)
 [![Python Versions](https://img.shields.io/pypi/pyversions/dlint.svg)](https://pypi.org/project/dlint/)
 [![PyPI Version](https://img.shields.io/pypi/v/dlint.svg)](https://pypi.org/project/dlint/)
 
