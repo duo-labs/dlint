@@ -5,8 +5,7 @@
 [![Python Versions](https://img.shields.io/pypi/pyversions/dlint.svg)](https://pypi.org/project/dlint/)
 [![PyPI Version](https://img.shields.io/pypi/v/dlint.svg)](https://pypi.org/project/dlint/)
 
-Dlint is a tool for encouraging best coding practices and helping ensure we're
-writing secure Python code.
+Dlint is a tool for encouraging best coding practices and helping ensure Python code is secure.
 
 > The most important thing I have done as a programmer in recent years is to
 > aggressively pursue static code analysis. Even more valuable than the
