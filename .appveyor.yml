@@ -1,0 +1,20 @@
+build: false
+version: "0.9.2.{build}"
+platform: "x64"
+
+environment:
+  matrix:
+    - PYTHON: "C:\\Python27"
+    - PYTHON: "C:\\Python35"
+    - PYTHON: "C:\\Python36"
+    - PYTHON: "C:\\Python37"
+    - PYTHON: "C:\\Python38"
+
+install:
+  - pip install --requirement requirements.txt
+  - pip install --requirement requirements-dev.txt
+  - pip install --editable .
+
+test_script:
+  - flake8
+  - pytest --cov
