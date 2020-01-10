@@ -10,7 +10,18 @@ from __future__ import (
 import sre_constants
 import sre_parse
 
+import collections
 import itertools
+import sys
+
+try:
+    # Python 2
+    from future_builtins import filter  # Same as itertools.ifilter
+except ImportError:
+    # Python 3
+    pass
+
+CR = collections.namedtuple('CR', ['cr_min', 'cr_max'])
 
 
 class OpNode(object):
@@ -65,6 +76,116 @@ def build_op_tree(node, subpattern):
         node.children.append(new_node)
 
 
+class CharacterRange(object):
+
+    def __init__(self, character_ranges, negate=False):
+        self.character_ranges = character_ranges
+        self.negate = negate
+
+    @classmethod
+    def from_any(cls, _any):
+        """E.g. '.'"""
+        return cls([CR(cr_min=0, cr_max=sys.maxunicode)])
+
+    @classmethod
+    def from_literal(cls, literal):
+        """E.g. 'a'"""
+        return cls([CR(cr_min=literal[0], cr_max=literal[0])])
+
+    @classmethod
+    def from_not_literal(cls, not_literal):
+        """E.g. '[^a]'"""
+        return cls([CR(cr_min=not_literal[0], cr_max=not_literal[0])], negate=True)
+
+    @classmethod
+    def from_in(cls, _in):
+        """E.g. '[abcA-Z]'"""
+        character_ranges = []
+        for node_type, args in _in:
+            if node_type is sre_constants.LITERAL:
+                character_ranges.append(CR(cr_min=args, cr_max=args))
+            elif node_type is sre_constants.RANGE:
+                character_ranges.append(CR(cr_min=args[0], cr_max=args[1]))
+
+        return cls(character_ranges)
+
+    @classmethod
+    def from_not_in(cls, not_in):
+        """E.g. '[^abcA-Z]'"""
+        character_ranges = []
+        for node_type, args in not_in[1:]:
+            if node_type is sre_constants.LITERAL:
+                character_ranges.append(CR(cr_min=args, cr_max=args))
+            elif node_type is sre_constants.RANGE:
+                character_ranges.append(CR(cr_min=args[0], cr_max=args[1]))
+
+        return cls(character_ranges, negate=True)
+
+    @classmethod
+    def from_op_node(cls, node):
+        if node.op is sre_constants.ANY:
+            return cls.from_any(node.args)
+        elif node.op is sre_constants.LITERAL:
+            return cls.from_literal(node.args)
+        elif node.op is sre_constants.NOT_LITERAL:
+            return cls.from_not_literal(node.args)
+        elif (node.op is sre_constants.IN
+                and node.args
+                and node.args[0] == (sre_constants.NEGATE, None)):
+            return cls.from_not_in(node.args)
+        elif node.op is sre_constants.IN:
+            return cls.from_in(node.args)
+
+        # Unsupported OpNode
+        return None
+
+    def overlap(self, other_character_range):
+        if self.negate and other_character_range.negate:
+            # Unless the sets are disjoint and cover the entire character
+            # space they will have overlap - let's punt on the logic and
+            # assume this is true
+            return True
+        elif self.negate:
+            character_set = {
+                i
+                for cr in self.character_ranges
+                for i in range(cr.cr_min, cr.cr_max + 1)
+            }
+            other_character_set = {
+                i
+                for cr in other_character_range.character_ranges
+                for i in range(cr.cr_min, cr.cr_max + 1)
+            }
+            return bool(other_character_set - character_set)
+        elif other_character_range.negate:
+            character_set = {
+                i
+                for cr in self.character_ranges
+                for i in range(cr.cr_min, cr.cr_max + 1)
+            }
+            other_character_set = {
+                i
+                for cr in other_character_range.character_ranges
+                for i in range(cr.cr_min, cr.cr_max + 1)
+            }
+            return bool(character_set - other_character_set)
+
+        return any(
+            cr1.cr_min <= cr2.cr_min <= cr1.cr_max
+            or cr1.cr_min <= cr2.cr_max <= cr1.cr_max
+            for cr1, cr2 in itertools.product(
+                self.character_ranges,
+                other_character_range.character_ranges
+            )
+        )
+
+    def __repr__(self):
+        return "<CharacterRange - negate={} {}>".format(
+            self.negate,
+            ", ".join(str((cr.cr_min, cr.cr_max)) for cr in self.character_ranges)
+        )
+
+
 def large_repeat(node):
     repeat_min, repeat_max = node.args
 
@@ -98,98 +219,13 @@ def max_nested_quantifiers(node):
 
 
 def inclusive_alternation_branch(branch_node):
-    anys = [
-        child for child in branch_node.children
-        if child.op is sre_constants.ANY
-    ]
-
-    literals = [
-        child for child in branch_node.children
-        if child.op is sre_constants.LITERAL
-    ]
-
-    not_literals = [
-        child for child in branch_node.children
-        if child.op is sre_constants.NOT_LITERAL
-    ]
-
-    negate_literals = [
-        child for child in branch_node.children
-        if (
-            child.op is sre_constants.IN
-            and child.args
-            and child.args[0][0] is sre_constants.NEGATE
-            and child.args[0][1] is None
-        )
-    ]
-
-    ins = [
-        child for child in branch_node.children
-        if child.op is sre_constants.IN
-    ]
-
-    ranges = [
-        (node_type, args)
-        for _in in ins
-        for node_type, args in _in.args
-        if node_type is sre_constants.RANGE
-    ]
-
-    def any_overlap():
-        return bool(anys)
-
-    def literal_overlap():
-        return any(
-            _range[1][0] <= literal.args[0] <= _range[1][1]
-            for literal, _range in itertools.product(literals, ranges)
-        )
-
-    def not_literal_overlap():
-        ranges_values = set()
-        ranges_values.update(*[
-            [i for i in range(_range[1][0], _range[1][1] + 1)]
-            for _range in ranges
-        ])
-        ranges_values.difference_update([
-            not_literal.args[0] for not_literal in not_literals
-        ])
-
-        return not_literals and bool(ranges_values)
-
-    def negate_literal_overlap():
-        in_literals = [
-            (node_type, arg)
-            for _in in negate_literals
-            for node_type, arg in _in.args
-            if node_type is sre_constants.LITERAL
-        ]
-
-        ranges_values = set()
-        ranges_values.update(*[
-            [i for i in range(_range[1][0], _range[1][1] + 1)]
-            for _range in ranges
-        ])
-        ranges_values.difference_update([
-            negate_literal[1] for negate_literal in in_literals
-        ])
-
-        return negate_literals and bool(ranges_values)
-
-    def range_overlap():
-        return any(
-            r1[1][0] <= r2[1][0] <= r1[1][1]
-            or r1[1][0] <= r2[1][1] <= r1[1][1]
-            for r1, r2 in itertools.combinations(ranges, 2)
-        )
-
+    character_ranges = (
+        CharacterRange.from_op_node(node)
+        for node in branch_node.children
+    )
     return any(
-        fn() for fn in [  # Lazily evaluate
-            any_overlap,
-            literal_overlap,
-            not_literal_overlap,
-            negate_literal_overlap,
-            range_overlap,
-        ]
+        cr1.overlap(cr2)
+        for cr1, cr2 in itertools.combinations(filter(None, character_ranges), 2)
     )
 
 
