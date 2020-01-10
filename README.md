@@ -68,11 +68,10 @@ $ python -m flake8 --select=DUO test.py
 test.py:2:1: DUO105 use of "exec" is insecure
 ```
 
-*To learn more about why "exec" is insecure visit [`/docs/linters/DUO105.md`](https://github.com/dlint-py/dlint/blob/master/docs/linters/DUO105.md).*
+* *Why is this insecure? To learn more visit [`/docs/linters/DUO105.md`](https://github.com/dlint-py/dlint/blob/master/docs/linters/DUO105.md).*
+* *Why `DUO`? Dlint was originally developed by the [Duo Labs](https://duo.com/blog/introducing-dlint-robust-static-analysis-for-python) team.*
 
 The `--select=DUO` flag tells `flake8` to only run Dlint lint rules.
-
-*Why `DUO`? Dlint was originally developed by the [Duo Labs](https://duo.com/blog/introducing-dlint-robust-static-analysis-for-python) team.*
 
 From here, we can easily run Dlint against a directory of Python code:
 
