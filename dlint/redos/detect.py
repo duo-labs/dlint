@@ -28,8 +28,8 @@ CATEGORY_TO_RANGE = {
     sre_constants.CATEGORY_NOT_DIGIT: [(0, 47), (58, sys.maxunicode)],
     sre_constants.CATEGORY_SPACE: [(9, 13), (32, 32)],
     sre_constants.CATEGORY_NOT_SPACE: [(0, 8), (14, 31), (33, sys.maxunicode)],
-    sre_constants.CATEGORY_WORD: [(48, 57), (65, 90), (97, 122)],
-    sre_constants.CATEGORY_NOT_WORD: [(0, 47), (58, 64), (91, 96), (123, sys.maxunicode)],
+    sre_constants.CATEGORY_WORD: [(48, 57), (65, 90), (95, 95), (97, 122)],
+    sre_constants.CATEGORY_NOT_WORD: [(0, 47), (58, 64), (91, 94), (96, 96), (123, sys.maxunicode)],
 }
 
 
