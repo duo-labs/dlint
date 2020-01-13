@@ -256,11 +256,11 @@ def mutually_inclusive_alternation_helper(node, nested_quantifier):
     if node.op is sre_constants.BRANCH:
         inclusive_alternation = inclusive_alternation_branch(node)
 
-    for child in node.children:
-        return (
-            (nested_quantifier and inclusive_alternation)
-            or mutually_inclusive_alternation_helper(child, nested_quantifier)
-        )
+    return any(
+        (nested_quantifier and inclusive_alternation)
+        or mutually_inclusive_alternation_helper(child, nested_quantifier)
+        for child in node.children
+    )
 
 
 def mutually_inclusive_alternation(node):
