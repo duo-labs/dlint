@@ -509,6 +509,98 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_bad_re_catastrophic_nested_quantifier_alternation_category_overlap(self):
+        python_node = self.get_ast_node(
+            r"""
+            import re
+
+            re.search('(\\w|[a-c])+')
+            """
+        )
+
+        linter = dlint.linters.BadReCatastrophicUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=4,
+                col_offset=0,
+                message=dlint.linters.BadReCatastrophicUseLinter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_bad_re_catastrophic_nested_quantifier_alternation_not_category_overlap(self):
+        python_node = self.get_ast_node(
+            r"""
+            import re
+
+            re.search('(\\S|[a-c])+')
+            """
+        )
+
+        linter = dlint.linters.BadReCatastrophicUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=4,
+                col_offset=0,
+                message=dlint.linters.BadReCatastrophicUseLinter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_bad_re_catastrophic_nested_quantifier_alternation_digit_category_overlap(self):
+        python_node = self.get_ast_node(
+            r"""
+            import re
+
+            re.search('(\\d|123)+')
+            """
+        )
+
+        linter = dlint.linters.BadReCatastrophicUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=4,
+                col_offset=0,
+                message=dlint.linters.BadReCatastrophicUseLinter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
+    def test_bad_re_catastrophic_nested_quantifier_alternation_negate_category_overlap(self):
+        python_node = self.get_ast_node(
+            r"""
+            import re
+
+            re.search('([^\\W]|[a-c])+')
+            """
+        )
+
+        linter = dlint.linters.BadReCatastrophicUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=4,
+                col_offset=0,
+                message=dlint.linters.BadReCatastrophicUseLinter._error_tmpl
+            )
+        ]
+
+        assert result == expected
+
     def test_bad_re_catastrophic_groupref_detection(self):
         python_node = self.get_ast_node(
             """

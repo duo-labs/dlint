@@ -23,6 +23,15 @@ except ImportError:
 
 CR = collections.namedtuple('CR', ['cr_min', 'cr_max'])
 
+CATEGORY_TO_RANGE = {
+    sre_constants.CATEGORY_DIGIT: [(48, 57)],
+    sre_constants.CATEGORY_NOT_DIGIT: [(0, 47), (58, sys.maxunicode)],
+    sre_constants.CATEGORY_SPACE: [(9, 13), (32, 32)],
+    sre_constants.CATEGORY_NOT_SPACE: [(0, 8), (14, 31), (33, sys.maxunicode)],
+    sre_constants.CATEGORY_WORD: [(48, 57), (65, 90), (97, 122)],
+    sre_constants.CATEGORY_NOT_WORD: [(0, 47), (58, 64), (91, 96), (123, sys.maxunicode)],
+}
+
 
 class OpNode(object):
 
@@ -106,6 +115,13 @@ class CharacterRange(object):
                 character_ranges.append(CR(cr_min=args, cr_max=args))
             elif node_type is sre_constants.RANGE:
                 character_ranges.append(CR(cr_min=args[0], cr_max=args[1]))
+            elif node_type is sre_constants.CATEGORY:
+                for c, r in CATEGORY_TO_RANGE.items():
+                    if args is c:
+                        character_ranges.extend([
+                            CR(cr_min=r_min, cr_max=r_max)
+                            for r_min, r_max in r
+                        ])
 
         return cls(character_ranges)
 
@@ -118,6 +134,13 @@ class CharacterRange(object):
                 character_ranges.append(CR(cr_min=args, cr_max=args))
             elif node_type is sre_constants.RANGE:
                 character_ranges.append(CR(cr_min=args[0], cr_max=args[1]))
+            elif node_type is sre_constants.CATEGORY:
+                for c, r in CATEGORY_TO_RANGE.items():
+                    if args is c:
+                        character_ranges.extend([
+                            CR(cr_min=r_min, cr_max=r_max)
+                            for r_min, r_max in r
+                        ])
 
         return cls(character_ranges, negate=True)
 
