@@ -522,7 +522,9 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
         linter.visit(python_node)
 
         result = linter.get_results()
-        expected = [
+
+        # sre_parse optimization nullifies this alternation check in Python 3.7+
+        expected = [] if IS_PYTHON_3_7 else [
             dlint.linters.base.Flake8Result(
                 lineno=4,
                 col_offset=0,
@@ -545,7 +547,9 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
         linter.visit(python_node)
 
         result = linter.get_results()
-        expected = [
+
+        # sre_parse optimization nullifies this alternation check in Python 3.7+
+        expected = [] if IS_PYTHON_3_7 else [
             dlint.linters.base.Flake8Result(
                 lineno=4,
                 col_offset=0,
