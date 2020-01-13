@@ -53,7 +53,11 @@ class OpNode(object):
         return result
 
     def __repr__(self):
-        return "<OpNode - op={} args={}>".format(self.op, self.args)
+        return "<{} - op={} args={}>".format(
+            self.__class__.__name__,
+            self.op,
+            self.args
+        )
 
 
 def build_op_tree(node, subpattern):
@@ -197,7 +201,8 @@ class CharacterRange(object):
         )
 
     def __repr__(self):
-        return "<CharacterRange - negate={} {}>".format(
+        return "<{} - negate={} ranges={}>".format(
+            self.__class__.__name__,
             self.negate,
             ", ".join(str((cr.cr_min, cr.cr_max)) for cr in self.character_ranges)
         )
