@@ -106,41 +106,35 @@ class CharacterRange(object):
         """E.g. '[^a]'"""
         return cls([CR(cr_min=not_literal[0], cr_max=not_literal[0])], negate=True)
 
-    @classmethod
-    def from_in(cls, _in):
-        """E.g. '[abcA-Z]'"""
-        character_ranges = []
-        for node_type, args in _in:
+    @staticmethod
+    def _parse_in_nodes(nodes):
+        results = []
+        for node_type, args in nodes:
             if node_type is sre_constants.LITERAL:
-                character_ranges.append(CR(cr_min=args, cr_max=args))
+                results.append(CR(cr_min=args, cr_max=args))
             elif node_type is sre_constants.RANGE:
-                character_ranges.append(CR(cr_min=args[0], cr_max=args[1]))
+                results.append(CR(cr_min=args[0], cr_max=args[1]))
             elif node_type is sre_constants.CATEGORY:
                 for c, r in CATEGORY_TO_RANGE.items():
                     if args is c:
-                        character_ranges.extend([
+                        results.extend(
                             CR(cr_min=r_min, cr_max=r_max)
                             for r_min, r_max in r
-                        ])
+                        )
+
+        return results
+
+    @classmethod
+    def from_in(cls, _in):
+        """E.g. '[abcA-Z]'"""
+        character_ranges = cls._parse_in_nodes(_in)
 
         return cls(character_ranges)
 
     @classmethod
     def from_not_in(cls, not_in):
         """E.g. '[^abcA-Z]'"""
-        character_ranges = []
-        for node_type, args in not_in[1:]:
-            if node_type is sre_constants.LITERAL:
-                character_ranges.append(CR(cr_min=args, cr_max=args))
-            elif node_type is sre_constants.RANGE:
-                character_ranges.append(CR(cr_min=args[0], cr_max=args[1]))
-            elif node_type is sre_constants.CATEGORY:
-                for c, r in CATEGORY_TO_RANGE.items():
-                    if args is c:
-                        character_ranges.extend([
-                            CR(cr_min=r_min, cr_max=r_max)
-                            for r_min, r_max in r
-                        ])
+        character_ranges = cls._parse_in_nodes(not_in[1:])  # Avoid initial NEGATE
 
         return cls(character_ranges, negate=True)
 
