@@ -51,7 +51,7 @@ class BadNameAttributeUseLinter(base.BaseLinter, util.ABC):
                 return
 
             module_path = tree.module_path_str(inner_node.value.func)
-            targets.extend([
+            targets.extend(
                 Assignment(
                     variable=target.id,
                     module_path=module_path,
@@ -60,7 +60,7 @@ class BadNameAttributeUseLinter(base.BaseLinter, util.ABC):
                 )
                 for target in inner_node.targets
                 if isinstance(target, ast.Name)
-            ])
+            )
 
         tree.walk_callback_same_scope(node, variable_assignment_callback)
 
@@ -105,14 +105,14 @@ class BadNameAttributeUseLinter(base.BaseLinter, util.ABC):
 
         tree.walk_callback_same_scope(node, attribute_use_callback)
 
-        self.results.extend([
+        self.results.extend(
             base.Flake8Result(
                 lineno=result.lineno,
                 col_offset=result.col_offset,
                 message=self._error_tmpl
             )
             for result in results
-        ])
+        )
 
     def visit_AsyncFunctionDef(self, node):
         self.visit_FunctionDef(node)

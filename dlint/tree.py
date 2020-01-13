@@ -98,7 +98,7 @@ def walk_callback(node, callback, predicate=lambda n: True):
 
 
 def kwarg_present(call, kwarg_name):
-    return kwarg_name in [keyword.arg for keyword in call.keywords]
+    return kwarg_name in (keyword.arg for keyword in call.keywords)
 
 
 def kwarg_not_present(call, kwarg_name):

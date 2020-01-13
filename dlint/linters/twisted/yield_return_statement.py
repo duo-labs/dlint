@@ -42,11 +42,11 @@ class YieldReturnStatementLinter(base.BaseLinter):
 
         tree.walk_callback_same_scope(node, return_statement_callback)
 
-        self.results.extend([
+        self.results.extend(
             base.Flake8Result(
                 lineno=result.lineno,
                 col_offset=result.col_offset,
                 message=self._error_tmpl
             )
             for result in results
-        ])
+        )
