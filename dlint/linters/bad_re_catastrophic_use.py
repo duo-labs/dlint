@@ -37,6 +37,12 @@ class BadReCatastrophicUseLinter(bad_module_attribute_use.BadModuleAttributeUseL
                 'sub',
                 'subn',
             ],
+            'django.core.validators': [
+                'RegexValidator',
+            ],
+            'django.urls': [
+                're_path',
+            ]
         }
 
     def __init__(self, *args, **kwargs):

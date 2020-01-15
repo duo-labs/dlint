@@ -160,6 +160,65 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_bad_re_catastrophic_usage_django(self):
+        python_node = self.get_ast_node(
+            """
+            import django
+
+            django.core.validators.RegexValidator('(a+)+b')
+            django.urls.re_path('(a+)+b')
+            """
+        )
+
+        linter = dlint.linters.BadReCatastrophicUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=4,
+                col_offset=0,
+                message=dlint.linters.BadReCatastrophicUseLinter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=5,
+                col_offset=0,
+                message=dlint.linters.BadReCatastrophicUseLinter._error_tmpl
+            ),
+        ]
+
+        assert result == expected
+
+    def test_bad_re_catastrophic_usage_from_import_django(self):
+        python_node = self.get_ast_node(
+            """
+            from django.core.validators import RegexValidator
+            from django.urls import re_path
+
+            RegexValidator('(a+)+b')
+            re_path('(a+)+b')
+            """
+        )
+
+        linter = dlint.linters.BadReCatastrophicUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = [
+            dlint.linters.base.Flake8Result(
+                lineno=5,
+                col_offset=0,
+                message=dlint.linters.BadReCatastrophicUseLinter._error_tmpl
+            ),
+            dlint.linters.base.Flake8Result(
+                lineno=6,
+                col_offset=0,
+                message=dlint.linters.BadReCatastrophicUseLinter._error_tmpl
+            ),
+        ]
+
+        assert result == expected
+
     def get_individual_result(self, python_code):
         python_node = self.get_ast_node(python_code)
 
