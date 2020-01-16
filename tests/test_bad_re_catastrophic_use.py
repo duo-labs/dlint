@@ -664,6 +664,23 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
 
         assert result == expected
 
+    def test_bad_re_catastrophic_nested_quantifier_alternation_small_repeat(self):
+        python_node = self.get_ast_node(
+            r"""
+            import re
+
+            re.search('(!=|==)?b')
+            """
+        )
+
+        linter = dlint.linters.BadReCatastrophicUseLinter()
+        linter.visit(python_node)
+
+        result = linter.get_results()
+        expected = []
+
+        assert result == expected
+
     def test_bad_re_catastrophic_groupref_detection(self):
         python_node = self.get_ast_node(
             """

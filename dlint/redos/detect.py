@@ -255,7 +255,10 @@ def mutually_inclusive_alternation_helper(node, nested_quantifier):
     if not node.children:
         return False
 
-    nested_quantifier = nested_quantifier or node.op in sre_parse._REPEATCODES
+    nested_quantifier = (
+        nested_quantifier
+        or (node.op in sre_parse._REPEATCODES and large_repeat(node))
+    )
 
     inclusive_alternation = False
     if node.op is sre_constants.BRANCH:
