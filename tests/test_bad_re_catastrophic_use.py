@@ -669,7 +669,7 @@ class TestBadReCatastrophicUse(dlint.test.base.BaseTest):
             r"""
             import re
 
-            re.search('(!=|==)?b')
+            re.search('(a|a)?b')
             """
         )
 
