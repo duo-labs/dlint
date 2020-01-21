@@ -276,7 +276,11 @@ def mutually_inclusive_alternation(node):
 
 
 def catastrophic(pattern):
-    subpattern = sre_parse.parse(pattern)
+    try:
+        subpattern = sre_parse.parse(pattern)
+    except sre_constants.error:
+        return False
+
     root = OpNode(None, ())
 
     build_op_tree(root, subpattern)
@@ -290,12 +294,20 @@ def catastrophic(pattern):
 
 
 def dump(pattern):
-    subpattern = sre_parse.parse(pattern)
-    subpattern.dump()
+    try:
+        subpattern = sre_parse.parse(pattern)
+    except sre_constants.error as e:
+        print("Malformed expression: {}".format(str(e)))
+    else:
+        subpattern.dump()
 
 
 def dump_tree(pattern):
-    subpattern = sre_parse.parse(pattern)
-    root = OpNode(None, ())
-    build_op_tree(root, subpattern)
-    print(root)
+    try:
+        subpattern = sre_parse.parse(pattern)
+    except sre_constants.error as e:
+        print("Malformed expression: {}".format(str(e)))
+    else:
+        root = OpNode(None, ())
+        build_op_tree(root, subpattern)
+        print(root)
