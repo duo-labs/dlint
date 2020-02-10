@@ -95,6 +95,7 @@ comprehensive analysis and ensure you're coding with confidence.
 * [A Few Billion Lines of Code Later: Using Static Analysis to Find Bugs in the Real World (2010)](https://cacm.acm.org/magazines/2010/2/69354-a-few-billion-lines-of-code-later/fulltext)
 * [How to Build Static Checking Systems Using Orders of Magnitude Less Code (2016)](https://web.stanford.edu/~mlfbrown/paper.pdf)
 * [What Developers Want and Need from Program Analysis: An Empirical Study (2016)](https://www.microsoft.com/en-us/research/publication/what-developers-want-and-need-from-program-analysis-an-empirical-study/)
+* [Lessons learned from writing ShellCheck, GitHub's now most starred Haskell project (2020)](https://www.vidarholen.net/contents/blog/?p=859)
 
 ## How can I integrate Dlint into XYZ?
 
