@@ -96,6 +96,7 @@ comprehensive analysis and ensure you're coding with confidence.
 * [How to Build Static Checking Systems Using Orders of Magnitude Less Code (2016)](https://web.stanford.edu/~mlfbrown/paper.pdf)
 * [What Developers Want and Need from Program Analysis: An Empirical Study (2016)](https://www.microsoft.com/en-us/research/publication/what-developers-want-and-need-from-program-analysis-an-empirical-study/)
 * [Lessons learned from writing ShellCheck, GitHub's now most starred Haskell project (2020)](https://www.vidarholen.net/contents/blog/?p=859)
+* [Wikipedia: Data-flow analysis](https://en.wikipedia.org/wiki/Data-flow_analysis)
 
 ## How can I integrate Dlint into XYZ?
 
