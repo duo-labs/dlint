@@ -1,7 +1,7 @@
 # Dlint
 
 [![Build Status](https://travis-ci.org/dlint-py/dlint.svg?branch=master)](https://travis-ci.org/dlint-py/dlint)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/dlint-py/dlint?branch=master&svg=true)](https://ci.appveyor.com/project/dlint-py/dlint/branch/master)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/dlint-py/dlint?branch=master&svg=true)](https://ci.appveyor.com/project/mschwager/dlint/branch/master)
 [![Coverage Status](https://coveralls.io/repos/github/dlint-py/dlint/badge.svg?branch=master)](https://coveralls.io/github/dlint-py/dlint?branch=master)
 [![Python Versions](https://img.shields.io/pypi/pyversions/dlint.svg)](https://pypi.org/project/dlint/)
 [![PyPI Version](https://img.shields.io/pypi/v/dlint.svg)](https://pypi.org/project/dlint/)
