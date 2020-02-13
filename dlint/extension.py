@@ -9,8 +9,8 @@ from __future__ import (
 
 import importlib
 import inspect
-import os
 import pkgutil
+import optparse
 import sys
 
 import dlint
@@ -26,12 +26,19 @@ class Flake8Extension(object):
 
     @classmethod
     def add_options(cls, parser):
-        parser.add_option(
-            '--print-dlint-linters',
-            action='store_true',
-            help='Print Dlint linter information.',
-            parse_from_config=False
-        )
+        try:
+            parser.add_option(
+                '--print-dlint-linters',
+                action='store_true',
+                help='Print Dlint linter information.',
+                parse_from_config=False
+            )
+        except optparse.OptionConflictError:
+            # Occurs during development when flake8 detects the dlint package
+            # twice: once because it's been installed in editable mode, and
+            # once from the local filesystem directory. We can safely nop here
+            # since the option(s) have already been added.
+            pass
 
     @classmethod
     def parse_options(cls, options):
@@ -43,7 +50,8 @@ class Flake8Extension(object):
                 for l in sorted(linters, key=lambda li: li._code)
             ]
             print("\n".join(output_lines))
-            sys.exit(os.EX_OK)
+            EX_OK = 0
+            sys.exit(EX_OK)
 
     @staticmethod
     def get_plugin_linter_classes():

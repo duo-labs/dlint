@@ -1,20 +1,18 @@
 build: false
 version: "0.10.1.{build}"
 platform: "x64"
-
 environment:
-  matrix:
-    - PYTHON: "C:\\Python27"
-    - PYTHON: "C:\\Python35"
-    - PYTHON: "C:\\Python36"
-    - PYTHON: "C:\\Python37"
-    - PYTHON: "C:\\Python38"
-
+    matrix:
+        - PYTHON: "C:\\Python27"
+        - PYTHON: "C:\\Python35"
+        - PYTHON: "C:\\Python36"
+        - PYTHON: "C:\\Python37"
+        - PYTHON: "C:\\Python38"
 install:
-  - pip install --requirement requirements.txt
-  - pip install --requirement requirements-dev.txt
-  - pip install --editable .
-
+    - pip install --requirement requirements.txt
+    - pip install --requirement requirements-dev.txt
+    - pip install --editable .
 test_script:
-  - flake8
-  - pytest --cov
+    - flake8
+    - flake8 --print-dlint-linters
+    - pytest --cov
