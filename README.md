@@ -149,5 +149,17 @@ $ pytest --cov
 ## Benchmarking
 
 ```
-$ pytest --benchmark-py-file /path/to/python/file tests/test_benchmark/
+$ pytest -k test_benchmark_run --benchmark-py-file /path/to/file.py tests/test_benchmark/
+```
+
+Or get benchmark results for linters individually:
+
+```
+$ pytest -k test_benchmark_individual --benchmark-py-file /path/to/file.py tests/test_benchmark/
+```
+
+Or run against a single linter:
+
+```
+$ pytest -k test_benchmark_individual[DUO138-BadReCatastrophicUseLinter] --benchmark-py-file /path/to/file.py tests/test_benchmark/
 ```

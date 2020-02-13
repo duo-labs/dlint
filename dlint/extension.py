@@ -53,8 +53,8 @@ class Flake8Extension(object):
             EX_OK = 0
             sys.exit(EX_OK)
 
-    @staticmethod
-    def get_plugin_linter_classes():
+    @classmethod
+    def get_plugin_linter_classes(cls):
         module_prefix = 'dlint_plugin_'
         class_prefix = 'Dlint'
 
@@ -64,20 +64,20 @@ class Flake8Extension(object):
             if name.startswith(module_prefix)
         ]
         plugin_classes = [
-            cls
+            inner_cls
             for module in plugin_modules
-            for name, cls in inspect.getmembers(module, predicate=inspect.isclass)
+            for name, inner_cls in inspect.getmembers(module, predicate=inspect.isclass)
             if name.startswith(class_prefix)
         ]
 
         return plugin_classes
 
-    @staticmethod
-    def get_linter_classes():
-        return dlint.linters.ALL + tuple(Flake8Extension.get_plugin_linter_classes())
+    @classmethod
+    def get_linter_classes(cls):
+        return dlint.linters.ALL + tuple(cls.get_plugin_linter_classes())
 
     def run(self):
-        linter_instances = [l() for l in Flake8Extension.get_linter_classes()]
+        linter_instances = [l() for l in self.get_linter_classes()]
         multi_visitor = dlint.multi.MultiNodeVisitor(linter_instances)
         multi_visitor.visit(self.tree)
 
