@@ -25,4 +25,9 @@ def pytest_addoption(parser):
 @pytest.fixture
 def benchmark_py_file(request):
     fd = request.config.getoption("--benchmark-py-file", skip=True)
+
+    if fd.tell() > 0:
+        # Read calls from previous tests exhaust the file descriptor
+        fd.seek(0)
+
     return ast.parse(fd.read())
