@@ -25,7 +25,7 @@ sys.path.append(
 import extension  # noqa: E402
 
 # These must be in the same order for parametrize to index correctly
-LINTERS = extension.dlint.linters.ALL
+LINTERS = sorted(extension.dlint.linters.ALL, key=lambda l: l._code)
 LINTER_IDS = ["{}-{}".format(l._code, l.__name__) for l in LINTERS]
 
 
