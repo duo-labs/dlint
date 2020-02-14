@@ -24,10 +24,6 @@ sys.path.append(
 
 import extension  # noqa: E402
 
-# These must be in the same order for parametrize to index correctly
-LINTERS = sorted(extension.dlint.linters.ALL, key=lambda l: l._code)
-LINTER_IDS = ["{}-{}".format(l._code, l.__name__) for l in LINTERS]
-
 
 def get_single_linter_extension(linter):
     class SingleLinterExtention(extension.Flake8Extension):
@@ -46,7 +42,11 @@ def test_benchmark_run(benchmark_py_file, benchmark):
     assert ext
 
 
-@pytest.mark.parametrize('linter', LINTERS, ids=LINTER_IDS)
+@pytest.mark.parametrize(
+    'linter',
+    sorted(extension.dlint.linters.ALL, key=lambda l: l._code),
+    ids=lambda l: "{}-{}".format(l._code, l.__name__)
+)
 def test_benchmark_individual(benchmark_py_file, benchmark, linter):
     ext_class = get_single_linter_extension(linter)
     ext = ext_class(benchmark_py_file, "unused")
