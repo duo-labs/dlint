@@ -20,6 +20,11 @@ def pytest_addoption(parser):
         type=argparse.FileType("r"),
         help="Benchmark Dlint against this Python file."
     )
+    parser.addoption(
+        "--benchmark-group-base-class",
+        action="store_true",
+        help="Group Dlint benchmark results by base class."
+    )
 
 
 @pytest.fixture
@@ -31,3 +36,8 @@ def benchmark_py_file(request):
         fd.seek(0)
 
     return ast.parse(fd.read())
+
+
+@pytest.fixture
+def benchmark_group_base_class(request):
+    return request.config.getoption("--benchmark-group-base-class")

@@ -10,6 +10,17 @@ from __future__ import (
 import ast
 import copy
 
+try:
+    from functools import lru_cache
+except ImportError:
+    # Sorry Python 2 users, it's time to upgrade
+    def lru_cache(*args, **kwargs):
+        def decorator(function):
+            def noop(*inner_args, **inner_kwargs):
+                return function(*inner_args, **inner_kwargs)
+            return noop
+        return decorator
+
 from . import util
 
 
@@ -37,6 +48,7 @@ class Namespace(object):
 
         return cls(imports, from_imports)
 
+    @lru_cache(maxsize=1024)
     def name_imported(self, name):
         def alias_includes_name(alias):
             return (
@@ -58,6 +70,7 @@ class Namespace(object):
 
         return None
 
+    @lru_cache(maxsize=1024)
     def illegal_module_imported(self, module_path, illegal_module_path):
         modules = module_path.split('.')
         illegal_modules = illegal_module_path.split('.')

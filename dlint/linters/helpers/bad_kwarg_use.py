@@ -9,6 +9,7 @@ from __future__ import (
 
 import abc
 import ast
+import itertools
 
 from .. import base
 from ... import tree
@@ -19,6 +20,56 @@ class BadKwargUseLinter(base.BaseLinter, util.ABC):
     """This abstract base class provides an simple interface for creating new
     lint rules that block bad kwarg use.
     """
+
+    def __init__(self, *args, **kwargs):
+        self.minimized_bad_kwarg_func = None
+
+        module_path_grouped = [
+            (k, list(v))
+            for k, v in itertools.groupby(
+                sorted(self.kwargs, key=lambda k: k["module_path"]),
+                key=lambda k: k["module_path"]
+            )
+        ]
+
+        def minimized_illegal_module_imported(module_path, node):
+            return any(
+                self.namespace.illegal_module_imported(
+                    module_path,
+                    kwarg["module_path"]
+                )
+                and kwarg["predicate"](node, kwarg["kwarg_name"])
+                for illegal_module_path, kwargs in module_path_grouped
+                for kwarg in kwargs
+            )
+
+        kwarg_predicate_grouped = [
+            (k, list(v))
+            for k, v in itertools.groupby(
+                sorted(self.kwargs, key=lambda k: (k["kwarg_name"], id(k["predicate"]))),
+                key=lambda k: (k["kwarg_name"], id(k["predicate"]))
+            )
+        ]
+
+        def minimized_kwarg_predicate(module_path, node):
+            return any(
+                self.namespace.illegal_module_imported(
+                    module_path,
+                    kwarg["module_path"]
+                )
+                and kwarg["predicate"](node, kwarg["kwarg_name"])
+                for kwarg_predicate_tuple, kwargs in kwarg_predicate_grouped
+                for kwarg in kwargs
+            )
+
+        # Minimize kwarg checks by grouping similar rules
+        if (len(kwarg_predicate_grouped) < len(self.kwargs)
+                and len(module_path_grouped) == len(self.kwargs)):
+            self.minimized_bad_kwarg_func = minimized_kwarg_predicate
+        else:
+            self.minimized_bad_kwarg_func = minimized_illegal_module_imported
+
+        super(BadKwargUseLinter, self).__init__(*args, **kwargs)
 
     @property
     @abc.abstractmethod
@@ -45,15 +96,9 @@ class BadKwargUseLinter(base.BaseLinter, util.ABC):
         if not isinstance(node.func, (ast.Attribute, ast.Name)):
             return
 
-        bad_kwarg = any(
-            (
-                self.namespace.illegal_module_imported(
-                    tree.module_path_str(node.func),
-                    kwarg["module_path"]
-                )
-                and kwarg["predicate"](node, kwarg["kwarg_name"])
-            )
-            for kwarg in self.kwargs
+        bad_kwarg = self.minimized_bad_kwarg_func(
+            tree.module_path_str(node.func),
+            node
         )
 
         if bad_kwarg:

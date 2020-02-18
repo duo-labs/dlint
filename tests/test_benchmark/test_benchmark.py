@@ -47,7 +47,10 @@ def test_benchmark_run(benchmark_py_file, benchmark):
     sorted(extension.dlint.linters.ALL, key=lambda l: l._code),
     ids=lambda l: "{}-{}".format(l._code, l.__name__)
 )
-def test_benchmark_individual(benchmark_py_file, benchmark, linter):
+def test_benchmark_individual(benchmark_py_file, benchmark_group_base_class, benchmark, linter):
+    if benchmark_group_base_class:
+        benchmark.group = str(linter.__bases__)
+
     ext_class = get_single_linter_extension(linter)
     ext = ext_class(benchmark_py_file, "unused")
 
