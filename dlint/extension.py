@@ -13,12 +13,15 @@ import pkgutil
 import optparse
 import sys
 
+from flake8 import style_guide
+
 import dlint
 
 
 class Flake8Extension(object):
     name = dlint.__name__
     version = dlint.__version__
+    options = None
 
     def __init__(self, tree, filename):
         self.tree = tree
@@ -44,7 +47,7 @@ class Flake8Extension(object):
     def parse_options(cls, options):
         if options.print_dlint_linters:
             code_prefix_len = 7
-            linters = Flake8Extension.get_linter_classes()
+            linters = cls.get_linter_classes()
             output_lines = [
                 "{} {} {}".format(l._code, l.__name__, l._error_tmpl[code_prefix_len:])
                 for l in sorted(linters, key=lambda li: li._code)
@@ -52,6 +55,8 @@ class Flake8Extension(object):
             print("\n".join(output_lines))
             EX_OK = 0
             sys.exit(EX_OK)
+
+        cls.options = options
 
     @classmethod
     def get_plugin_linter_classes(cls):
@@ -74,7 +79,17 @@ class Flake8Extension(object):
 
     @classmethod
     def get_linter_classes(cls):
-        return dlint.linters.ALL + tuple(cls.get_plugin_linter_classes())
+        linter_classes = dlint.linters.ALL + tuple(cls.get_plugin_linter_classes())
+
+        if cls.options:
+            engine = style_guide.DecisionEngine(cls.options)
+            selected = style_guide.Decision.Selected
+            linter_classes = tuple(
+                linter_class for linter_class in linter_classes
+                if engine.decision_for(linter_class._code) is selected
+            )
+
+        return linter_classes
 
     def run(self):
         linter_instances = [l() for l in self.get_linter_classes()]

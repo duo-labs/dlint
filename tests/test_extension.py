@@ -7,6 +7,8 @@ from __future__ import (
     unicode_literals,
 )
 
+import argparse
+import contextlib
 import os
 import sys
 import unittest
@@ -29,6 +31,30 @@ sys.path.append(
 
 import base  # noqa: E402
 import extension  # noqa: E402
+
+
+def create_options(**kwargs):
+    kwargs.setdefault("select", [])
+    kwargs.setdefault("extended_default_select", ["DUO"])
+    kwargs.setdefault("ignore", [])
+    kwargs.setdefault("extend_ignore", [])
+    kwargs.setdefault("disable_noqa", False)
+    kwargs.setdefault("enable_extensions", [])
+
+    return argparse.Namespace(**kwargs)
+
+
+@contextlib.contextmanager
+def extension_with_options(options):
+    # Flake8 requires an extension's options to be set as a class
+    # variable. We have to ensure options are reset back to None after the
+    # extension is used or all class instances will retain the set options.
+    ext = extension.Flake8Extension
+    ext.options = options
+    try:
+        yield ext
+    finally:
+        ext.options = None
 
 
 class TestFlake8Extension(base.BaseTest):
@@ -64,6 +90,58 @@ class TestFlake8Extension(base.BaseTest):
                 extension.dlint.linters.BadExecUseLinter
             )
         ]
+
+        assert result == expected
+
+    def test_flake8_extension_get_linter_classes_select(self):
+        options = create_options(select=["DUO101"])
+
+        with extension_with_options(options) as ext:
+            result = ext.get_linter_classes()
+
+        expected = (extension.dlint.linters.YieldReturnStatementLinter,)
+
+        assert result == expected
+
+    def test_flake8_extension_get_linter_classes_extended_default_select(self):
+        options = create_options(extended_default_select=["DUO101"])
+
+        with extension_with_options(options) as ext:
+            result = ext.get_linter_classes()
+
+        expected = (extension.dlint.linters.YieldReturnStatementLinter,)
+
+        assert result == expected
+
+    def test_flake8_extension_get_linter_classes_ignore(self):
+        options = create_options(ignore=["DUO101"])
+
+        with extension_with_options(options) as ext:
+            result = ext.get_linter_classes()
+
+        expected = list(extension.dlint.linters.ALL)
+        expected.remove(extension.dlint.linters.YieldReturnStatementLinter)
+        expected = tuple(expected)
+
+        assert result == expected
+
+    def test_flake8_extension_get_linter_classes_extend_ignore(self):
+        options = create_options(extend_ignore=["DUO101"])
+
+        with extension_with_options(options) as ext:
+            result = ext.get_linter_classes()
+
+        expected = list(extension.dlint.linters.ALL)
+        expected.remove(extension.dlint.linters.YieldReturnStatementLinter)
+        expected = tuple(expected)
+
+        assert result == expected
+
+    def test_flake8_extension_get_linter_classes_missing_options(self):
+        ext = extension.Flake8Extension
+
+        result = ext.get_linter_classes()
+        expected = extension.dlint.linters.ALL
 
         assert result == expected
 
