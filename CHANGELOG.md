@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.10.2] - 2020-02-19
 ### Changed
 - Cache namespace results and minimize kwarg checks by grouping similar rules - ~500% speed up ([#18](https://github.com/dlint-py/dlint/issues/18))
 - Only run linters that are selected - speed up depends on number of linters seleted ([#19](https://github.com/dlint-py/dlint/issues/19))

@@ -36,10 +36,10 @@ Usage: flake8 [options] file file ...
 
 ...
 
-Installed plugins: dlint: 0.10.1, mccabe: 0.5.3, pycodestyle: 2.2.0, pyflakes: 1.3.0
+Installed plugins: dlint: 0.10.2, mccabe: 0.5.3, pycodestyle: 2.2.0, pyflakes: 1.3.0
 ```
 
-Note the `dlint: 0.10.1`.
+Note the `dlint: 0.10.2`.
 
 # Using
 
